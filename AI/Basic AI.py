@@ -18,9 +18,12 @@ plr2.setup(Game)
 while running:
     clock.tick(fps)
 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
     Game.Update()
 
     screen.fill((0,0,0))
+    plr1.Draw()
     pygame.display.update()
-
-    #niks

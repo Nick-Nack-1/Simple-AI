@@ -7,11 +7,15 @@ class Board():
         self.Players[-1] = Plrs[1]
         
         self.Turn = 1
+
+        self.Size = Board_size
+
         self.Board = []
         for y in range(Board_size[1]):
             self.Board.append([])
             for x in range(Board_size[0]):
                 self.Board[y].append(0)
+        self.Board = [[-1,-1,-1],[0,0,0],[1,1,1]]
     
 
     def Update(self):

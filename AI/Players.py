@@ -1,13 +1,39 @@
+import Table
+import pygame
+from GLOBALS import *
 
 class Human():
     def __init__(self, scrn):
         self.screen = scrn
+        self.board = None
 
-    def setup(self, board_obj):
+    def setup(self, board_obj:Table.Board):
         self.game = board_obj
 
     def Play(self, board):
-        pass
+        self.board = board
+
+    def Draw(self):
+        if self.board != None:
+            size = self.game.Size
+            grid_space = (int(SCREEN_WIDTH/size[0]),int(SCREEN_HEIGHT/size[1]))
+            ##Grid
+            for y in range(size[1]-1):
+                y_pos = grid_space[1]*(y+1)
+                pygame.draw.line(self.screen, (255,255,0),(0,y_pos), (SCREEN_WIDTH,y_pos))
+            for x in range(size[0]-1):
+                x_pos = grid_space[0]*(x+1)
+                pygame.draw.line(self.screen, (255,255,0),(x_pos,0), (x_pos, SCREEN_WIDTH))
+
+            ##Dots
+            for y in range(size[1]):
+                for x in range(size[0]):
+                    dot = self.board[y][x]
+                    pos = (x*grid_space[0]+grid_space[0]//2, y*grid_space[1]+grid_space[1]//2)
+                    if dot == 1:
+                        pygame.draw.circle(self.screen, (0,0,255), center=pos, radius=grid_space[1]//2 -4)
+                    elif dot == -1:
+                        pygame.draw.circle(self.screen, (255,0,0), center=pos, radius=grid_space[1]//2 -4)
 
 class AI():
     def __init__(self):
