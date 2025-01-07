@@ -130,7 +130,7 @@ class Input_events():
 		self.mouse_wheel = 0
 
 	def peek_key(self, key:str):
-		#keys: (str) what keys do you wnat to know the state of
+		#keys: (str) what keys do you want to know the state of
 		return self.keys[key]
 	
 	def peek_wheel_dir(self):

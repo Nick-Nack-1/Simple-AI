@@ -13,6 +13,7 @@ class AI():
     def __init__(self):
         self.Moves = {}
         self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1],[(0,2),"R",1]]
+        self.Moves[(1,1,0,0,0,1,-1,-1,-1)] = [[(2,2),"M", 1],[(1,2),"M",1],[(1,2),"R",1]]
     def setup(self, board_obj):
         self.game = board_obj
     
