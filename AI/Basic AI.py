@@ -22,3 +22,5 @@ while running:
 
     screen.fill((0,0,0))
     pygame.display.update()
+
+    #wat nou?
