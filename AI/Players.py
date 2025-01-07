@@ -11,8 +11,8 @@ class Human():
 
 class AI():
     def __init__(self):
-        pass
-
+        self.Moves = {}
+        self.Moves[[1,0,1],[0,1,0],[-1,-1,-1]] = [[(0,2),"M", 1],[(0,2),"R",1]]
     def setup(self, board_obj):
         self.game = board_obj
     
