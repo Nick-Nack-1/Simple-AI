@@ -8,8 +8,6 @@ class Mouse():
 		self.button["Right"] = False
 		self.pos = (0,0)
 
-		self.scroll_dir = 0
-
 		self.triggered = {}
 		self.triggered["Left"] = False
 		self.triggered["Middle"] = False
@@ -28,7 +26,6 @@ class Mouse():
 		self.button["Middle"] = M_click
 		self.button["Right"] = R_click
 		self.pos = pygame.mouse.get_pos()
-		self.scroll_dir = 0
 
 		if L_click and not self.flags["Left"]:
 			self.triggered["Left"] = True
@@ -84,6 +81,10 @@ class Input_events():
 		self.keys["F2"] = False
 		self.keys["F3"] = False
 
+		self.keys["Q"] = False
+		self.keys["W"] = False
+		self.keys["E"] = False
+
 		self.mouse_wheel = 0
 		# ^ = -1 (up)
 		# ^ = 1 (down)
@@ -105,7 +106,14 @@ class Input_events():
 				self.keys["F2"] = True
 			elif event.key == pygame.K_F3:
 				self.keys["F3"] = True
-		
+			
+			elif event.key == pygame.K_q:
+				self.keys["Q"] = True
+			elif event.key == pygame.K_w:
+				self.keys["W"] = True
+			elif event.key == pygame.K_e:
+				self.keys["E"] = True
+			
 		elif event.type == pygame.KEYUP:
 			if event.key == pygame.K_RETURN:
 				self.keys["Return"] = False
@@ -121,6 +129,13 @@ class Input_events():
 				self.keys["F2"] = False
 			elif event.key == pygame.K_F3:
 				self.keys["F3"] = False
+			
+			elif event.key == pygame.K_q:
+				self.keys["Q"] = False
+			elif event.key == pygame.K_w:
+				self.keys["W"] = False
+			elif event.key == pygame.K_e:
+				self.keys["E"] = False
 
 		elif event.type == pygame.MOUSEWHEEL:
 			self.mouse_wheel = event.y

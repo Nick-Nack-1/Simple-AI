@@ -1,35 +1,67 @@
 import Table
 import pygame
+import Inputs
 from random import randint
 from GLOBALS import *
 
 class Human():
-    def __init__(self, scrn):
+    def __init__(self, scrn, inp:Inputs.Input_events, mouse:Inputs.Mouse):
         self.screen = scrn
         self.board = None
+        self.Inputs = inp
+        self.Mouse = mouse
+        self.select_pos = None
 
     def setup(self, board_obj:Table.Board):
         self.game = board_obj
 
-    def Play(self, board):
+    def Play(self, board, plr_key:int) -> tuple|None:
         self.board = board
+        if self.select_pos == None:
+            if self.Mouse.press_triggered("Left"):
+                size = (len(self.game.Board[0]),len(self.game.Board))
+                grid_space = (int(SCREEN_WIDTH/(size[0]-2)),int(SCREEN_HEIGHT/(size[1]-2)))
+                pos = self.Mouse.peek_pos()
+                self.select_pos = pos[0]//grid_space[0], pos[1]//grid_space[1]
+                if self.board[self.select_pos[1]+1][self.select_pos[0]+1] != plr_key:
+                    self.select_pos = None
+
+        else:
+            if self.Mouse.press_triggered("Left"):
+                size = (len(self.game.Board[0]),len(self.game.Board))
+                grid_space = (int(SCREEN_WIDTH/(size[0]-2)),int(SCREEN_HEIGHT/(size[1]-2)))
+                pos = self.Mouse.peek_pos()
+                move = (pos[0]//grid_space[0], pos[1]//grid_space[1])
+                if move[0] == self.select_pos[0] and move[1] == self.select_pos[1]-1:
+                    temp = self.select_pos
+                    self.select_pos = None
+                    return (temp,"M")
+                elif move[0] == self.select_pos[0]+1 and move[1] == self.select_pos[1]-1:
+                    temp = self.select_pos
+                    self.select_pos = None
+                    return (temp,"R")
+                elif move[0] == self.select_pos[0]-1 and move[1] == self.select_pos[1]-1:
+                    temp = self.select_pos
+                    self.select_pos = None
+                    return (temp,"L")
+        return None
 
     def Draw(self):
         if self.board != None:
-            size = self.game.Size
-            grid_space = (int(SCREEN_WIDTH/size[0]),int(SCREEN_HEIGHT/size[1]))
+            size = (len(self.game.Board[0]),len(self.game.Board))
+            grid_space = (int(SCREEN_WIDTH/(size[0]-2)),int(SCREEN_HEIGHT/(size[1]-2)))
             ##Grid
-            for y in range(size[1]-1):
+            for y in range(size[1]-3):
                 y_pos = grid_space[1]*(y+1)
                 pygame.draw.line(self.screen, (255,255,0),(0,y_pos), (SCREEN_WIDTH,y_pos))
-            for x in range(size[0]-1):
+            for x in range(size[0]-3):
                 x_pos = grid_space[0]*(x+1)
                 pygame.draw.line(self.screen, (255,255,0),(x_pos,0), (x_pos, SCREEN_WIDTH))
 
             ##Dots
-            for y in range(size[1]):
-                for x in range(size[0]):
-                    dot = self.board[y][x]
+            for y in range(size[1]-2):
+                for x in range(size[0]-2):
+                    dot = self.board[y+1][x+1]
                     pos = (x*grid_space[0]+grid_space[0]//2, y*grid_space[1]+grid_space[1]//2)
                     if dot == 1:
                         pygame.draw.circle(self.screen, (0,0,255), center=pos, radius=grid_space[1]//2 -4)
@@ -75,13 +107,13 @@ class AI():
     def setup(self, board_obj):
         self.game = board_obj
     
-    def Play(self, board):
+    def Play(self, board, plr_key:int) -> list:
         board_state = ()
-        for y in board:
-            board_state = board_state + tuple(y)
+        for y in range(len(board)-2):
+            board_state = board_state + tuple(board[y+1][1:4])
         move = self.Moves[board_state]
         bowl = []
         for m in move:
             for count in range(m[2]):
                 bowl.append(m)
-        return bowl[randint(0,len(bowl)-1)]
+        return bowl[randint(0,len(bowl)-1)][0:2]
