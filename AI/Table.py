@@ -31,7 +31,7 @@ class Board():
             if move[1] == "L":
                 self.Board[move[0][1]][move[0][0]] = 0
                 self.Board[move[0][1]-1][move[0][0]-1] = self.Turn
-            self.Turn == self.Turn*-1
+            self.Turn = self.Turn*-1
             self.Rotate()
     
 
