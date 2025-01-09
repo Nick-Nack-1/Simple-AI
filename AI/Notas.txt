@@ -1,7 +1,8 @@
 onthou board rand 
 board is 5by5
 
-
+Ai=rooi
+human=swart
 
 
 

@@ -64,7 +64,7 @@ class Human():
                     dot = self.board[y+1][x+1]
                     pos = (x*grid_space[0]+grid_space[0]//2, y*grid_space[1]+grid_space[1]//2)
                     if dot == 1:
-                        pygame.draw.circle(self.screen, (0,0,255), center=pos, radius=grid_space[1]//2 -4)
+                        pygame.draw.circle(self.screen, (0,0,0), center=pos, radius=grid_space[1]//2 -4)
                     elif dot == -1:
                         pygame.draw.circle(self.screen, (255,0,0), center=pos, radius=grid_space[1]//2 -4)
 

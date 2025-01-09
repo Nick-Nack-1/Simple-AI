@@ -32,6 +32,6 @@ while running:
     Game.Update()
     
 
-    screen.fill((0,0,0))
+    screen.fill((255,255,255))
     plr1.Draw()
     pygame.display.update()
