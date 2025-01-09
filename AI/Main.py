@@ -41,10 +41,10 @@ while running:
         new_game()
     
     if Input.keys["F1"]:
-        with open("CurrentAI.txt", "wb") as file:
+        with open("./AIsCurrentAI.txt", "wb") as file:
             pickle.dump(plr2.Moves, file)
     if Input.keys["F2"]:
-        with open("CurrentAI.txt", "rb") as file:
+        with open("./AIs/CurrentAI.txt", "rb") as file:
             plr2.Moves = pickle.load(file)
     if Input.keys["F3"]:
         with open("PrintOut.txt", "w") as file:
