@@ -51,6 +51,18 @@ class Board():
                 return True
         return False
     
+    def Win(self) -> bool:
+        #1
+        if self.Turn in self.Board[0]:
+            return True
+        surviver = True
+        for layer in self.Board:
+            if Turn*-1 in layer:
+                surviver = False
+                break
+        #2
+        if surviver:
+            return True
 
     def Rotate(self):
         temp_board = copy.deepcopy(self.Board)
