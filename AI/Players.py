@@ -1,5 +1,6 @@
 import Table
 import pygame
+from random import randint
 from GLOBALS import *
 
 class Human():
@@ -45,5 +46,11 @@ class AI():
     
     def Play(self, board):
         board_state = ()
-        for y in range(len(board)):
-            board_state = board_state + tuple(board)
+        for y in board:
+            board_state = board_state + tuple(y)
+        move = self.Moves[board_state]
+        bowl = []
+        for m in move:
+            for count in range(m[2]):
+                bowl.append(m)
+        return bowl[randint(0,len(bowl)-1)]
