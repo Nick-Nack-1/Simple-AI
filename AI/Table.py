@@ -67,14 +67,14 @@ class Board():
         if surviver:
             return True
         #3
-        # Stalemate = False
-        # for y in range(len(self.Board)):
-        #     for x in range(len(self.Board[0])):
-        #         if self.Board[y][x] != 3:
-        #             for m in ("L","M","R"):
-        #                 if not self.ValidateMove(((x,y),m)):
-        #                     return True
-        return False
+        Stalemate = True
+        for y in range(len(self.Board)-2):
+            for x in range(len(self.Board[0])-2):
+                for m in ("L","M","R"):
+                    if self.ValidateMove(((x,y),m)):
+                        Stalemate = False
+        return Stalemate
+
 
     def Rotate(self):
         temp_board = copy.deepcopy(self.Board)
