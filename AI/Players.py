@@ -33,17 +33,14 @@ class Human():
                 pos = self.Mouse.peek_pos()
                 move = (pos[0]//grid_space[0], pos[1]//grid_space[1])
                 if move[0] == self.select_pos[0] and move[1] == self.select_pos[1]-1:
-                    temp = self.select_pos
-                    self.select_pos = None
-                    return (temp,"M")
+                    move = (self.select_pos,"M")
                 elif move[0] == self.select_pos[0]+1 and move[1] == self.select_pos[1]-1:
-                    temp = self.select_pos
-                    self.select_pos = None
-                    return (temp,"R")
+                    move = (self.select_pos,"R")
                 elif move[0] == self.select_pos[0]-1 and move[1] == self.select_pos[1]-1:
-                    temp = self.select_pos
+                    move = (self.select_pos,"L")
+                if self.game.ValidateMove(move):
                     self.select_pos = None
-                    return (temp,"L")
+                    return move
         return None
 
     def Draw(self):
@@ -53,10 +50,10 @@ class Human():
             ##Grid
             for y in range(size[1]-3):
                 y_pos = grid_space[1]*(y+1)
-                pygame.draw.line(self.screen, (255,255,0),(0,y_pos), (SCREEN_WIDTH,y_pos))
+                pygame.draw.line(self.screen, (255,255,0),(0,y_pos), (SCREEN_WIDTH,y_pos),width=3)
             for x in range(size[0]-3):
                 x_pos = grid_space[0]*(x+1)
-                pygame.draw.line(self.screen, (255,255,0),(x_pos,0), (x_pos, SCREEN_WIDTH))
+                pygame.draw.line(self.screen, (255,255,0),(x_pos,0), (x_pos, SCREEN_WIDTH),width=3)
 
             ##Dots
             for y in range(size[1]-2):

@@ -27,27 +27,27 @@ class Board():
         move = Current_plr.Play(self.Board, self.Turn)
         if move != None:
             if move[1] == "M":
-                self.Board[move[0][1]][move[0][0]] = 0
-                self.Board[move[0][1]-1][move[0][0]] = self.Turn
+                self.Board[move[0][1]+1][move[0][0]+1] = 0
+                self.Board[move[0][1]-1+1][move[0][0]+1] = self.Turn
             elif move[1] == "R":
-                self.Board[move[0][1]][move[0][0]] = 0
-                self.Board[move[0][1]-1][move[0][0]+1] = self.Turn
+                self.Board[move[0][1]+1][move[0][0]+1] = 0
+                self.Board[move[0][1]-1+1][move[0][0]+1] = self.Turn
             elif move[1] == "L":
-                self.Board[move[0][1]][move[0][0]] = 0
-                self.Board[move[0][1]-1][move[0][0]-1] = self.Turn
+                self.Board[move[0][1]+1][move[0][0]+1] = 0
+                self.Board[move[0][1]-1+1][move[0][0]-1+1] = self.Turn
             self.Turn = self.Turn*-1
             self.Rotate()
     
 
     def ValidateMove(self, move:list) -> bool:
         if move[1] == "M":
-            if self.Board[move[0][1]-1][move[0][0]] == 0:
+            if self.Board[move[0][1]-1 +1][move[0][0] +1] == 0:
                 return True
         elif move[1] == "R":
-            if self.Board[move[0][1]-1][move[0][0]+1] == self.Turn*-1:
+            if self.Board[move[0][1]-1 +1][move[0][0]+1 +1] == self.Turn*-1:
                 return True
         elif move[1] == "L":
-            if self.Board[move[0][1]-1][move[0][0]-1] == self.Turn*-1:
+            if self.Board[move[0][1]-1 +1][move[0][0]-1 +1] == self.Turn*-1:
                 return True
         return False
     
