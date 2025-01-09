@@ -22,7 +22,7 @@ self.Moves dictionary formaat:
 self.Moves[key] = [moves]
 
  key: (0,0,0,0,0,0,0,0,0)   --> 1 is mens, 0 is niks, -1 is AI
- move: [huidige koordinaat,tipe move, aantal beads]   --> kan 1 tot 4 moves he
+ move: [huidige koordinaat,tipe move,aantal beads]   --> kan 1 tot 4 moves he
   huidige koordinaat: (x,y)   --> bv. (1,2)
   tipe move: "M"/"R"/"L"
   aantal beads: 1
