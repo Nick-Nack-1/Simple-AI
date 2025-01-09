@@ -50,10 +50,10 @@ class Human():
             ##Grid
             for y in range(size[1]-3):
                 y_pos = grid_space[1]*(y+1)
-                pygame.draw.line(self.screen, (255,255,0),(0,y_pos), (SCREEN_WIDTH,y_pos),width=3)
+                pygame.draw.line(self.screen, ((128,128,128)),(0,y_pos), (SCREEN_WIDTH,y_pos),width=3)
             for x in range(size[0]-3):
                 x_pos = grid_space[0]*(x+1)
-                pygame.draw.line(self.screen, (255,255,0),(x_pos,0), (x_pos, SCREEN_WIDTH),width=3)
+                pygame.draw.line(self.screen, ((128,128,128)),(x_pos,0), (x_pos, SCREEN_WIDTH),width=3)
 
             ##Dots
             for y in range(size[1]-2):
@@ -72,8 +72,8 @@ class AI():
         self.last_move = None
         self.Moves = {}
         #In totaal moet daar 48 wees↓
-       # 2
-        self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1], [(0,2),"R",1], [(2,2),"M",1], [(2,2),"L",1]]
+        #2
+        self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1], [(0,2),"R",1], [(2,2),"M",1], [(2,2),"L",1]]#eintlik 2 boksies(hul is simmetries selfs gerotate)
         self.Moves[(1,1,0,0,0,1,-1,-1,-1)] = [[(0,2),"M", 1], [(1,2),"M",1], [(1,2),"R",1]]
         self.Moves[(0,1,1,1,0,0,-1,-1,-1)] = [[(1,2),"M", 1], [(1,2),"L",1], [(2,2),"M",1]]
         # 4
@@ -82,14 +82,14 @@ class AI():
         self.Moves[(1,0,0,0,-1,1,0,-1,-1)] = [[(1,2),"R",1], [(1,1),"L",1], [(1,1),"M",1]]
         self.Moves[(0,0,1,1,0,1,-1,-1,0)] = [[(1,2),"M",1], [(1,2),"R",1], [(1,2),"L",1]]
         self.Moves[(0,0,1,1,0,0,-1,0,-1)] = [[(2,2),"M",1]]
-       
-
-#        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
-#        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
-#        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
-#        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
-#        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
-#        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
+        self.Moves[(0,0,1,1,1,-1,-1,-1,0)] = [[(1,2),"L",1], [(0,1),"R",1]]
+        self.Moves[(0,1,0,1,1,0,-1,0,-1)] = [[(0,2),"R",1], [(2,2),"M",1], [(2,2),"L",1]]
+        self.Moves[(0,0,1,1,-1,0,0,-1,-1)] = [[(1,1),"M",1], [(1,1),"R",1], [(2,2),"M",1], [(1,2),"L",1]]
+#        self.Moves[()] =
+#        self.Moves[()] =
+#        self.Moves[()] =
+        #6
+        
 
 
 
