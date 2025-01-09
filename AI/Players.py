@@ -12,7 +12,7 @@ class Human():
         self.Mouse = mouse
         self.select_pos = None
 
-    def setup(self, board_obj:Table.Board):
+    def setup(self, board_obj):
         self.game = board_obj
 
     def Play(self, board, plr_key:int) -> tuple|None:
@@ -64,21 +64,26 @@ class Human():
                         pygame.draw.circle(self.screen, (0,0,0), center=pos, radius=grid_space[1]//2 -4)
                     elif dot == -1:
                         pygame.draw.circle(self.screen, (255,0,0), center=pos, radius=grid_space[1]//2 -4)
+    def End(self, win:bool):
+        pass
 
 class AI():
     def __init__(self):
+        self.last_move = None
         self.Moves = {}
         #In totaal moet daar 48 wees↓
-        #2
+       # 2
         self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1], [(0,2),"R",1], [(2,2),"M",1], [(2,2),"L",1]]
         self.Moves[(1,1,0,0,0,1,-1,-1,-1)] = [[(0,2),"M", 1], [(1,2),"M",1], [(1,2),"R",1]]
         self.Moves[(0,1,1,1,0,0,-1,-1,-1)] = [[(1,2),"M", 1], [(1,2),"L",1], [(2,2),"M",1]]
-        #4
+        # 4
         self.Moves[(1,0,0,0,1,0,0,-1,-1)] = [[(2,2),"M",1], [(2,2),"L",1]]
         self.Moves[(1,0,0,-1,1,1,0,-1,-1)] = [[(2,2),"L",1], [(1,2),"R",1]]
         self.Moves[(1,0,0,0,-1,1,0,-1,-1)] = [[(1,2),"R",1], [(1,1),"L",1], [(1,1),"M",1]]
         self.Moves[(0,0,1,1,0,1,-1,-1,0)] = [[(1,2),"M",1], [(1,2),"R",1], [(1,2),"L",1]]
         self.Moves[(0,0,1,1,0,0,-1,0,-1)] = [[(2,2),"M",1]]
+       
+
 #        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
 #        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
 #        self.Moves[(1,0,0,-1,1,1,0,-1,-1)] =
@@ -113,4 +118,11 @@ class AI():
         for m in move:
             for count in range(m[2]):
                 bowl.append(m)
-        return bowl[randint(0,len(bowl)-1)][0:2]
+        self.last_move = bowl[randint(0,len(bowl)-1)]
+        return self.last_move[0:2]
+    
+    def End(self, win:bool):
+        if win:
+            self.last_move[2] += 1
+        else:
+            self.last_move[2] -= 1

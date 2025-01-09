@@ -15,9 +15,15 @@ Mouse = Inputs.Mouse()
 
 plr1 = Players.Human(screen, Input, Mouse)
 plr2 = Players.AI()
-Game = Table.Board([plr1,plr2], (3,3))
-plr1.setup(Game)
-plr2.setup(Game)
+Game = None
+def new_game():
+    global Game, plr1, plr2
+    Game = Table.Board([plr1,plr2], (3,3))
+    plr1.setup(Game)
+    plr2.setup(Game)
+
+
+new_game()
 
 while running:
     clock.tick(fps)
@@ -30,6 +36,8 @@ while running:
         Input.update(event)
 
     Game.Update()
+    if Game.NewGame():
+        new_game()
     
 
     screen.fill((255,255,255))
