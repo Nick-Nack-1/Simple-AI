@@ -66,7 +66,8 @@ while running:
     screen.fill((255,255,255))
     plr1.Draw()
     
-    draw_text(f"Red: {plr2.score}", font, (150,150,150), screen, (0,0))
-    draw_text(f"Black: {plr1.score}", font, (150,150,150), screen, (0,20))
-
+    draw_text(f"Game number: {plr1.score+plr2.score}", font, (150,150,150), screen, (0,0))
+    draw_text(f"Red(AI): {plr2.score}", font, (150,150,150), screen, (0,20))
+    draw_text(f"Black(you): {plr1.score}", font, (150,150,150), screen, (0,40))
+    
     pygame.display.update()
