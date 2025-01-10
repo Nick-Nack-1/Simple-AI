@@ -1,3 +1,7 @@
+Add n 2/3 sek delay voor ai speel 
+
+
+
 onthou board rand 
 board is 5by5
 
