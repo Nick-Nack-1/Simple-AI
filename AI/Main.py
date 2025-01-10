@@ -2,6 +2,8 @@ import pygame
 import Table
 import Players
 import Inputs
+import pickle
+import pprint
 from GLOBALS import *
 
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -39,6 +41,15 @@ while running:
     if Game.NewGame():
         new_game()
     
+    if Input.keys["F1"]:
+        with open("./AIs/CurrentAI.txt", "wb") as file:
+            pickle.dump(plr2.Moves, file)
+    if Input.keys["F2"]:
+        with open("./AIs/CurrentAI.txt", "rb") as file:
+            plr2.Moves = pickle.load(file)
+    if Input.keys["F3"]:
+        with open("PrintOut.txt", "w") as file:
+            pprint.pprint(plr2.Moves, file)
 
     screen.fill((255,255,255))
     plr1.Draw()
