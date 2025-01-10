@@ -1,4 +1,8 @@
-Add n 2/3 sek delay voor ai speel 
+Notas en to-do's:
+----------------
+
+
+Add n 2/3 sek delay na ai n winning move gemaak het sodat jy kan sien wat hy gedoen het 
 
 
 
