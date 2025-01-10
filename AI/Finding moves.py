@@ -15,16 +15,34 @@ class AI():
                 if board[y][x] == -1:
                     # Move forward
                     if y > 0 and board[y-1][x] == 0:
-                        moves.append([(x, y), "M", 1])
+                        moves.append([(x,y),"M",1])
                     # Capture diagonally left
                     if y > 0 and x > 0 and board[y-1][x-1] == 1:
-                        moves.append([(x, y), "L", 1])
+                        moves.append([(x,y),"L",1])
                     # Capture diagonally right
                     if y > 0 and x < 2 and board[y-1][x+1] == 1:
-                        moves.append([(x, y), "R", 1])
+                        moves.append([(x,y),"R",1])
         return moves
 
-# Example usage
+# old Example usage
+#ai = AI()
+#board_state = input("Enter board state in this format: (0,0,0,0,0,0,0,0,0)\n")
+#board_state = tuple(map(int, board_state.strip('()').split(',')))
+#print(f"self.Moves[{str(board_state).replace(' ', '')}] = {str(ai.find_moves(board_state)).replace(', ', ',')}")
+
+
+
+
 ai = AI()
-board_state = ((0,0,1,0,1,0,0,-1,-1))
-print(ai.find_moves(board_state))
+while True:
+    board_state = input("Enter board state in this format: (0,0,0,0,0,0,0,0,0) or type 'q' to exit\n")
+    if board_state.lower() == 'q':
+        break
+    try:
+        board_state = tuple(map(int, board_state.strip('()').split(',')))
+        print("\n-----------------------------------------------------------------------------------------------")
+        print(f"self.Moves[{str(board_state).replace(' ', '')}] = {str(ai.find_moves(board_state)).replace(', ', ',')}")
+        print("-----------------------------------------------------------------------------------------------\n")
+    except ValueError:
+        print("Invalid input format. Please try again.")
+
