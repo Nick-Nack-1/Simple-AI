@@ -4,8 +4,8 @@ import copy
 class Board():
     def __init__(self, Plrs:list, Board_size):
         self.Players = {}
-        self.Players[1] = Plrs[0]
-        self.Players[-1] = Plrs[1]
+        self.Players[1] = [Plrs[0],0]
+        self.Players[-1] = [Plrs[1],0]
         
         self.Turn = 1
         self.moved = False
@@ -24,7 +24,7 @@ class Board():
 
     def Update(self):
         if self.moved == False:
-            Current_plr = self.Players[self.Turn]
+            Current_plr = self.Players[self.Turn][0]
             move = Current_plr.Play(self.Board, self.Turn)
             if move != None:
                 self.moved = True
@@ -43,8 +43,8 @@ class Board():
             win = self.Win()
             if win:
                 self.win = True
-                self.Players[self.Turn].End(True)
-                self.Players[self.Turn*-1].End(False)
+                self.Players[self.Turn][0].End(True)
+                self.Players[self.Turn*-1][0].End(False)
             self.Turn = self.Turn*-1
             self.Rotate()
     

@@ -6,6 +6,8 @@ import pickle
 import pprint
 from GLOBALS import *
 
+pygame.init()
+
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 fps = 60
 clock = pygame.time.Clock()
@@ -26,6 +28,16 @@ def new_game():
 
 
 new_game()
+
+# Initialize font
+font = pygame.font.SysFont("Arial", 20, bold=True)
+
+def draw_text(text, font, color, surface, pos):
+    textobj = font.render(text, True, color)
+    textrect = textobj.get_rect()
+    textrect.topleft = pos
+    surface.blit(textobj, textrect)
+
 
 while running:
     clock.tick(fps)
@@ -53,4 +65,8 @@ while running:
 
     screen.fill((255,255,255))
     plr1.Draw()
+    
+    draw_text(f"Red: {plr2.score}", font, (150,150,150), screen, (0,0))
+    draw_text(f"Black: {plr1.score}", font, (150,150,150), screen, (0,20))
+
     pygame.display.update()

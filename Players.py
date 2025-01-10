@@ -12,6 +12,8 @@ class Human():
         self.Mouse = mouse
         self.select_pos = None
 
+        self.score = 0
+
     def setup(self, board_obj):
         self.game = board_obj
 
@@ -65,11 +67,13 @@ class Human():
                     elif dot == -1:
                         pygame.draw.circle(self.screen, (255,0,0), center=pos, radius=grid_space[1]//2 -4)
     def End(self, win:bool):
-        pass
+        if win:
+            self.score += 1
 
 class AI():
     def __init__(self):
         self.last_move = None
+        self.score = 0
         self.Moves = {}
         #In totaal moet daar 37 wees↓  (nie 48 want daar is twee wat dieselfde is)(-8 vir simmetriese enes by 6)(-2 vir simmetriese enes by 4)
         #2 (3)
@@ -130,6 +134,7 @@ class AI():
     
     def End(self, win:bool):
         if win:
+            self.score += 1
             self.last_move[2] += 1
         else:
             self.last_move[2] -= 1
