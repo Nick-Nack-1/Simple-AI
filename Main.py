@@ -55,12 +55,15 @@ while running:
     
     if Input.keys["F1"]:
         with open("./AIs/CurrentAI.txt", "wb") as file:
+            print("saving")
             pickle.dump(plr2.Moves, file)
     if Input.keys["F2"]:
         with open("./AIs/CurrentAI.txt", "rb") as file:
+            print("loading")
             plr2.Moves = pickle.load(file)
     if Input.keys["F3"]:
         with open("PrintOut.txt", "w") as file:
+            print("printout")
             pprint.pprint(plr2.Moves, file)
 
     screen.fill((255,255,255))
