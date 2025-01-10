@@ -8,6 +8,8 @@ class Board():
         self.Players[-1] = Plrs[1]
         
         self.Turn = 1
+        self.moved = False
+        self.turn_pause = None
         self.win = False
 
         self.Size = Board_size
@@ -21,18 +23,23 @@ class Board():
     
 
     def Update(self):
-        Current_plr = self.Players[self.Turn]
-        move = Current_plr.Play(self.Board, self.Turn)
-        if move != None:
-            if move[1] == "M":
-                self.Board[move[0][1]+1][move[0][0]+1] = 0
-                self.Board[move[0][1]-1+1][move[0][0]+1] = self.Turn
-            elif move[1] == "R":
-                self.Board[move[0][1]+1][move[0][0]+1] = 0
-                self.Board[move[0][1]-1+1][move[0][0]+1+1] = self.Turn
-            elif move[1] == "L":
-                self.Board[move[0][1]+1][move[0][0]+1] = 0
-                self.Board[move[0][1]-1+1][move[0][0]-1+1] = self.Turn
+        if self.moved == False:
+            Current_plr = self.Players[self.Turn]
+            move = Current_plr.Play(self.Board, self.Turn)
+            if move != None:
+                self.moved = True
+                if move[1] == "M":
+                    self.Board[move[0][1]+1][move[0][0]+1] = 0
+                    self.Board[move[0][1]-1+1][move[0][0]+1] = self.Turn
+                elif move[1] == "R":
+                    self.Board[move[0][1]+1][move[0][0]+1] = 0
+                    self.Board[move[0][1]-1+1][move[0][0]+1+1] = self.Turn
+                elif move[1] == "L":
+                    self.Board[move[0][1]+1][move[0][0]+1] = 0
+                    self.Board[move[0][1]-1+1][move[0][0]-1+1] = self.Turn
+                self.turn_pause = Pause(15)
+        elif self.moved and self.turn_pause.Update():
+            self.moved = False
             win = self.Win()
             if win:
                 self.win = True
@@ -70,10 +77,12 @@ class Board():
         Stalemate = True
         for y in range(len(self.Board)-2):
             for x in range(len(self.Board[0])-2):
-                for m in ("L","M","R"):
-                    if self.ValidateMove(((x,y),m)):
-                        Stalemate = False
+                if self.Board[y+1][x+1] == self.Turn:
+                    for m in ("L","M","R"):
+                        if self.ValidateMove(((x,y),m)):
+                            Stalemate = False
         return Stalemate
+
 
 
     def Rotate(self):
@@ -82,8 +91,21 @@ class Board():
             for x in range(len(self.Board[0])):
                 rev_x = abs(x-(len(self.Board[0])-1))
                 rev_y = abs(y-(len(self.Board)-1))
-                self.Board[y][x] = temp_board[rev_y][rev_x]
+                temp_board[rev_y][rev_x] = self.Board[y][x]
+        self.Board = temp_board
     
 
     def NewGame(self):
         return self.win
+
+
+class Pause():
+    def __init__(self, T_tick:int):
+        self.Total_ticks = T_tick
+        self.ticks = 0
+    
+    def Update(self):
+        self.ticks += 1
+        if self.ticks >= self.Total_ticks:
+            return True
+        return False

@@ -17,20 +17,20 @@ class Human():
 
     def Play(self, board, plr_key:int) -> tuple|None:
         self.board = board
-        if self.select_pos == None:
-            if self.Mouse.press_triggered("Left"):
-                size = (len(self.game.Board[0]),len(self.game.Board))
-                grid_space = (int(SCREEN_WIDTH/(size[0]-2)),int(SCREEN_HEIGHT/(size[1]-2)))
-                pos = self.Mouse.peek_pos()
-                self.select_pos = pos[0]//grid_space[0], pos[1]//grid_space[1]
+        if self.Mouse.press_triggered("Left"):
+            size = (len(self.game.Board[0]),len(self.game.Board))
+            grid_space = (int(SCREEN_WIDTH/(size[0]-2)),int(SCREEN_HEIGHT/(size[1]-2)))
+            pos = self.Mouse.peek_pos()
+            new_select = pos[0]//grid_space[0], pos[1]//grid_space[1]
+            if self.select_pos == None:
+                self.select_pos = new_select
                 if self.board[self.select_pos[1]+1][self.select_pos[0]+1] != plr_key:
                     self.select_pos = None
+            
+            elif self.board[new_select[1]+1][new_select[0]+1] == plr_key:
+                self.select_pos = new_select
 
-        else:
-            if self.Mouse.press_triggered("Left"):
-                size = (len(self.game.Board[0]),len(self.game.Board))
-                grid_space = (int(SCREEN_WIDTH/(size[0]-2)),int(SCREEN_HEIGHT/(size[1]-2)))
-                pos = self.Mouse.peek_pos()
+            else:
                 move = (pos[0]//grid_space[0], pos[1]//grid_space[1])
                 if move[0] == self.select_pos[0] and move[1] == self.select_pos[1]-1:
                     move = (self.select_pos,"M")
