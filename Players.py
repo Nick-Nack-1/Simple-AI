@@ -136,6 +136,7 @@ class AI():
             for count in range(m[2]):
                 bowl.append(m)
         if bowl == []:
+            self.last_move[2] = 0
             self.game.Resign()
             return
         else:
