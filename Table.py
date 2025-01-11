@@ -1,4 +1,5 @@
 import copy
+from GLOBALS import *
 
 
 class Board():
@@ -26,6 +27,7 @@ class Board():
         if self.moved == False:
             Current_plr = self.Players[self.Turn][0]
             move = Current_plr.Play(self.Board, self.Turn)
+            self.Players[self.Turn*-1][0].GetBoard(self.Rotate())
             if move != None:
                 self.moved = True
                 if move[1] == "M":
@@ -46,7 +48,7 @@ class Board():
                 self.Players[self.Turn][0].End(True)
                 self.Players[self.Turn*-1][0].End(False)
             self.Turn = self.Turn*-1
-            self.Rotate()
+            self.Board = self.Rotate()
     
 
     def ValidateMove(self, move:tuple) -> bool:
@@ -82,6 +84,11 @@ class Board():
                         if self.ValidateMove(((x,y),m)):
                             Stalemate = False
         return Stalemate
+    
+    def Resign(self):
+        self.win = True
+        self.Players[self.Turn][0].End(False)
+        self.Players[self.Turn*-1][0].End(True)
 
 
 
@@ -92,11 +99,21 @@ class Board():
                 rev_x = abs(x-(len(self.Board[0])-1))
                 rev_y = abs(y-(len(self.Board)-1))
                 temp_board[rev_y][rev_x] = self.Board[y][x]
-        self.Board = temp_board
+        return temp_board
     
 
     def NewGame(self):
         return self.win
+    
+    def ShowWinner(self, scrn, font):
+        if self.win:
+            if self.Turn == 1:
+                text = "Red wins!"
+            else:
+                text = "Black wins!"
+            text_obj = font.render(text, True, (0,0,255))
+            scrn.blit(text_obj, ((SCREEN_WIDTH-text_obj.get_width())//2,(SCREEN_HEIGHT-text_obj.get_height())//2))
+
 
 
 class Pause():

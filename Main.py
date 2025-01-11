@@ -26,11 +26,13 @@ def new_game():
     plr1.setup(Game)
     plr2.setup(Game)
 
+Game_end_delay = Table.Pause(30)
 
 new_game()
 
 # Initialize font
 font = pygame.font.SysFont("Arial", 20, bold=True)
+font2 = pygame.font.SysFont("Arial", 40, bold=True)
 
 def draw_text(text, font, color, surface, pos):
     textobj = font.render(text, True, color)
@@ -49,9 +51,12 @@ while running:
             running = False
         Input.update(event)
 
-    Game.Update()
     if Game.NewGame():
-        new_game()
+        if Game_end_delay.Update():
+            new_game()
+            Game_end_delay = Table.Pause(30)
+    else:
+        Game.Update()
     
     if Input.keys["F1"]:
         with open("./AIs/CurrentAI.txt", "wb") as file:
@@ -68,6 +73,7 @@ while running:
 
     screen.fill((255,255,255))
     plr1.Draw()
+    Game.ShowWinner(screen, font2)
     
     draw_text(f"Game number: {plr1.score+plr2.score}", font, (150,150,150), screen, (0,0))
     draw_text(f"Red(AI): {plr2.score}", font, (150,150,150), screen, (0,20))

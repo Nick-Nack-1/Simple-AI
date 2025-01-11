@@ -17,6 +17,9 @@ class Human():
     def setup(self, board_obj):
         self.game = board_obj
 
+    def GetBoard(self, board):
+        self.board = board
+
     def Play(self, board, plr_key:int) -> tuple|None:
         self.board = board
         if self.Mouse.press_triggered("Left"):
@@ -120,7 +123,10 @@ class AI():
     def setup(self, board_obj):
         self.game = board_obj
     
-    def Play(self, board, plr_key:int) -> list:
+    def GetBoard(self, board):
+        self.board = board
+    
+    def Play(self, board, plr_key:int) -> list|None:
         board_state = ()
         for y in range(len(board)-2):
             board_state = board_state + tuple(board[y+1][1:4])
@@ -129,8 +135,12 @@ class AI():
         for m in move:
             for count in range(m[2]):
                 bowl.append(m)
-        self.last_move = bowl[randint(0,len(bowl)-1)]
-        return self.last_move[0:2]
+        if bowl == []:
+            self.game.Resign()
+            return
+        else:
+            self.last_move = bowl[randint(0,len(bowl)-1)]
+            return self.last_move[0:2]
     
     def End(self, win:bool):
         if win:
@@ -138,3 +148,5 @@ class AI():
             self.last_move[2] += 1
         else:
             self.last_move[2] -= 1
+
+            
