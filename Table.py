@@ -1,5 +1,7 @@
 import copy
 from GLOBALS import *
+import pygame
+screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
 
 class Board():
@@ -107,13 +109,19 @@ class Board():
     
     def ShowWinner(self, scrn, font):
         if self.win:
+            screen.fill((255,255,255))
             if self.Turn == 1:
                 text = "Red wins!"
+                text_obj = font.render(text, True, (255,0,0))
             else:
                 text = "Black wins!"
-            text_obj = font.render(text, True, (0,0,255))
+                text_obj = font.render(text, True, (0,0,0))
             scrn.blit(text_obj, ((SCREEN_WIDTH-text_obj.get_width())//2,(SCREEN_HEIGHT-text_obj.get_height())//2))
-
+            #EK HOOP DIE VOLGENDE IS REG:
+            #pygame.display.flip()
+            self.turn_pause = Pause(35)  # Pause for 2 seconds (assuming 60 FPS)
+            while not self.turn_pause.Update():
+                pygame.time.delay(1)
 
 
 class Pause():

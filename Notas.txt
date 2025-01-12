@@ -9,8 +9,8 @@ Add n 2/3 sek delay na ai n winning move gemaak het sodat jy kan sien wat hy ged
 onthou board rand 
 board is 5by5
 
-Ai=rooi en -1
-human=swart en 1
+Ai=rooi en -1 en plr2
+human=swart en 1 en plr1
 
 
 
