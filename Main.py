@@ -70,12 +70,12 @@ while running:
         with open("PrintOut.txt", "w") as file:
             print("printout")
             pprint.pprint(plr2.Moves, file)
-
+            
     screen.fill((255,255,255))
     plr1.Draw()
     Game.ShowWinner(screen, font2)
     
-    draw_text(f"Game number: {plr1.score+plr2.score}", font, (50,50,50), screen, (0,0))
+    draw_text(f"Game number: {plr1.score+plr2.score}", font, ((50,50,50)), screen, (0,0))
     draw_text(f"Red(AI): {plr2.score}", font, (50,50,50), screen, (0,20))
     draw_text(f"Black(you): {plr1.score}", font, (50,50,50), screen, (0,40))
     

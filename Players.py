@@ -75,7 +75,7 @@ class Human():
 
 class AI():
     def __init__(self):
-        self.last_move = None
+        self.last_move = [(0,0),"M",0]
         self.score = 0
         self.Moves = {}
         #In totaal moet daar 37 wees↓  (nie 48 want daar is twee wat dieselfde is)(-8 vir simmetriese enes by 6)(-2 vir simmetriese enes by 4)
@@ -137,6 +137,7 @@ class AI():
                 bowl.append(m)
         if bowl == []:
             self.last_move[2] = 0
+            print("Resigning")
             self.game.Resign()
             return
         else:

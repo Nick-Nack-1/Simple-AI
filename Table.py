@@ -43,12 +43,14 @@ class Board():
         elif self.moved and self.turn_pause.Update():
             self.moved = False
             win = self.Win()
+            self.Board = self.Rotate()
+            if self.StalemateCheck():
+                win = True
             if win:
                 self.win = True
                 self.Players[self.Turn][0].End(True)
                 self.Players[self.Turn*-1][0].End(False)
             self.Turn = self.Turn*-1
-            self.Board = self.Rotate()
     
 
     def ValidateMove(self, move:tuple) -> bool:
@@ -66,20 +68,23 @@ class Board():
     def Win(self) -> bool:
         #1
         if self.Turn in self.Board[1]:
+            print("Border win")
             return True
+        #2
         surviver = True
         for layer in self.Board:
             if self.Turn*-1 in layer:
                 surviver = False
                 break
-        #2
         if surviver:
+            print("Surviver win")
             return True
-        #3
+
+    def StalemateCheck(self):
         Stalemate = True
         for y in range(len(self.Board)-2):
             for x in range(len(self.Board[0])-2):
-                if self.Board[y+1][x+1] == self.Turn:
+                if self.Board[y+1][x+1] == self.Turn*-1:
                     for m in ("L","M","R"):
                         if self.ValidateMove(((x,y),m)):
                             Stalemate = False
