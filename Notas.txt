@@ -1,6 +1,6 @@
 Notas en to-do's:
 ----------------
-
+fix stalemate problem by 0,0,0,-1,-1,1,0,0,-1
 
 Add n 2/3 sek delay na ai n winning move gemaak het sodat jy kan sien wat hy gedoen het 
 
@@ -9,8 +9,8 @@ Add n 2/3 sek delay na ai n winning move gemaak het sodat jy kan sien wat hy ged
 onthou board rand 
 board is 5by5
 
-Ai=rooi en -1 en plr2
-human=swart en 1 en plr1
+Ai=rooi en -1 en plr2 en blou op papier
+human=swart en 1 en plr1 en geel op papier
 
 
 
