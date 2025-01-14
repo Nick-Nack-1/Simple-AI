@@ -81,7 +81,7 @@ class AI():
         self.last_move = [(0,0),"M",0]
         self.score = 0
         self.Moves = {}
-        #In totaal moet daar 37 wees↓  (nie 48 want daar is twee wat dieselfde is)(-8 vir simmetriese enes by 6)(-2 vir simmetriese enes by 4)
+        #In totaal moet daar 37 wees↓  (Oorspronklik 48)(-1 vir simmetriese enes by 2)(-2 vir simmetriese enes by 4)(-8 vir simmetriese enes by 6)
         #2 (3)
         self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1], [(0,2),"R",1], [(2,2),"M",1], [(2,2),"L",1]]#eintlik 2 boksies(hul is simmetries selfs gerotate)
         self.Moves[(1,1,0,0,0,1,-1,-1,-1)] = [[(0,2),"M", 1], [(1,2),"M",1], [(1,2),"R",1]]
@@ -150,7 +150,7 @@ class AI():
     def End(self, win:bool):
         if win:
             self.score += 1
-            self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
+            #self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
         else:
             self.last_move[2] -= 1
 

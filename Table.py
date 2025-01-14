@@ -41,7 +41,7 @@ class Board():
                 elif move[1] == "L":
                     self.Board[move[0][1]+1][move[0][0]+1] = 0
                     self.Board[move[0][1]-1+1][move[0][0]-1+1] = self.Turn
-                self.turn_pause = Pause(15)
+                self.turn_pause = Pause(25)
         elif self.moved and self.turn_pause.Update():
             self.moved = False
             win = self.Win()
@@ -82,7 +82,7 @@ class Board():
         if surviver:
             print("Surviver win")
             return True
-
+        #3
     def StalemateCheck(self):
         Stalemate = True
         for y in range(len(self.Board)-2):
@@ -126,9 +126,7 @@ class Board():
                 text = "Black wins!"
                 text_obj = font.render(text, True, (0,0,0))
             scrn.blit(text_obj, ((SCREEN_WIDTH-text_obj.get_width())//2,(SCREEN_HEIGHT-text_obj.get_height())//2))
-            #EK HOOP DIE VOLGENDE IS REG:
-            #pygame.display.flip()
-            self.turn_pause = Pause(35)  # Pause for 2 seconds (assuming 60 FPS)
+            self.turn_pause = Pause(35)  
             while not self.turn_pause.Update():
                 pygame.time.delay(1)
 

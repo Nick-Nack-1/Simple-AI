@@ -24,15 +24,6 @@ class AI():
                         moves.append([(x,y),"R",1])
         return moves
 
-# old Example usage
-#ai = AI()
-#board_state = input("Enter board state in this format: (0,0,0,0,0,0,0,0,0)\n")
-#board_state = tuple(map(int, board_state.strip('()').split(',')))
-#print(f"self.Moves[{str(board_state).replace(' ', '')}] = {str(ai.find_moves(board_state)).replace(', ', ',')}")
-
-
-
-
 ai = AI()
 while True:
     board_state = input("Enter board state in this format: (0,0,0,0,0,0,0,0,0) or type 'q' to exit\n")
