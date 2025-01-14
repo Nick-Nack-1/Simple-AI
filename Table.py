@@ -55,15 +55,16 @@ class Board():
             self.Turn = self.Turn*-1
     
 
-    def ValidateMove(self, move:tuple) -> bool:
+    def ValidateMove(self, move:tuple, board) -> bool:
+        pawn_type = self.Board[move[0][1]+1][move[0][0]+1]
         if move[1] == "M":
-            if self.Board[move[0][1]-1 +1][move[0][0] +1] == 0:
+            if board[move[0][1]-1 +1][move[0][0] +1] == 0:
                 return True
         elif move[1] == "R":
-            if self.Board[move[0][1]-1 +1][move[0][0]+1 +1] == self.Turn*-1:
+            if board[move[0][1]-1 +1][move[0][0]+1 +1] == pawn_type*-1:
                 return True
         elif move[1] == "L":
-            if self.Board[move[0][1]-1 +1][move[0][0]-1 +1] == self.Turn*-1:
+            if board[move[0][1]-1 +1][move[0][0]-1 +1] == pawn_type*-1:
                 return True
         return False
     
@@ -88,7 +89,7 @@ class Board():
             for x in range(len(self.Board[0])-2):
                 if self.Board[y+1][x+1] == self.Turn*-1:
                     for m in ("L","M","R"):
-                        if self.ValidateMove(((x,y),m)):
+                        if self.ValidateMove(((x,y),m), self.Board):
                             Stalemate = False
         return Stalemate
     
