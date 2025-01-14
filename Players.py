@@ -43,6 +43,9 @@ class Human():
                     move = (self.select_pos,"R")
                 elif move[0] == self.select_pos[0]-1 and move[1] == self.select_pos[1]-1:
                     move = (self.select_pos,"L")
+                else:
+                    self.select_pos = None
+                    return None
                 if self.game.ValidateMove(move, self.board):
                     self.select_pos = None
                     return move
