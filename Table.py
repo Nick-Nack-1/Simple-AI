@@ -26,10 +26,10 @@ class Board():
     
 
     def Update(self):
+        self.Players[self.Turn*-1][0].GetBoard(self.Rotate())
         if self.moved == False:
             Current_plr = self.Players[self.Turn][0]
             move = Current_plr.Play(self.Board, self.Turn)
-            self.Players[self.Turn*-1][0].GetBoard(self.Rotate())
             if move != None:
                 self.moved = True
                 if move[1] == "M":
@@ -41,7 +41,7 @@ class Board():
                 elif move[1] == "L":
                     self.Board[move[0][1]+1][move[0][0]+1] = 0
                     self.Board[move[0][1]-1+1][move[0][0]-1+1] = self.Turn
-                self.turn_pause = Pause(15)
+                self.turn_pause = Pause(60)
         elif self.moved and self.turn_pause.Update():
             self.moved = False
             win = self.Win()
@@ -91,6 +91,9 @@ class Board():
                     for m in ("L","M","R"):
                         if self.ValidateMove(((x,y),m), self.Board):
                             Stalemate = False
+                            break
+        if Stalemate:
+            print("Stalemate")
         return Stalemate
     
     def Resign(self):
