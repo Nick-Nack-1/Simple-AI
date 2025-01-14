@@ -41,7 +41,7 @@ class Board():
                 elif move[1] == "L":
                     self.Board[move[0][1]+1][move[0][0]+1] = 0
                     self.Board[move[0][1]-1+1][move[0][0]-1+1] = self.Turn
-                self.turn_pause = Pause(60)
+                self.turn_pause = Pause(15)
         elif self.moved and self.turn_pause.Update():
             self.moved = False
             win = self.Win()
