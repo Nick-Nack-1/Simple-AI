@@ -17,7 +17,8 @@ running = True
 Input = Inputs.Input_events()
 Mouse = Inputs.Mouse()
 
-plr1 = Players.Human(screen, Input, Mouse)
+# plr1 = Players.Human(Input, Mouse)
+plr1 = Players.AI()
 plr2 = Players.AI()
 Game = None
 def new_game():
@@ -72,7 +73,7 @@ while running:
             pprint.pprint(plr2.Moves, file)
 
     screen.fill((255,255,255))
-    plr1.Draw()
+    plr1.Draw(screen=screen)
     Game.ShowWinner(screen, font2)
 
 
