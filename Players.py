@@ -119,7 +119,7 @@ class AI():
     def End(self, win:bool):
         if win:
             self.score += 1
-            self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
+            #self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
         else:
             self.last_move[2] -= 1
 
