@@ -5,8 +5,7 @@ from random import randint
 from GLOBALS import *
 
 class Human():
-    def __init__(self, scrn, inp:Inputs.Input_events, mouse:Inputs.Mouse):
-        self.screen = scrn
+    def __init__(self, inp:Inputs.Input_events, mouse:Inputs.Mouse):
         self.board = None
         self.Inputs = inp
         self.Mouse = mouse
@@ -92,7 +91,7 @@ class AI():
     def Play(self, board, plr_key:int) -> list|None:
         board_state = ()
         for y in range(len(board)-2):
-            board_state = board_state + tuple(board[y+1][1:4])
+            board_state = board_state + tuple(board[y+1][1:-1])
 
         if board_state not in self.Moves:
             self.Moves[board_state] = []
@@ -109,7 +108,7 @@ class AI():
             for count in range(m[2]):
                 bowl.append(m)
         if bowl == []:
-            self.last_move[2] = 0
+            self.last_move[2] = 1
             print("Resigning")
             self.game.Resign()
             return

@@ -1,11 +1,11 @@
 import copy
 from GLOBALS import *
 import pygame
-screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
 
 class Board():
-    def __init__(self, Plrs:list, Board_size):
+    def __init__(self, Plrs:list, Board_size, pause = True):
+        self.Should_pause = pause
         self.Players = {}
         self.Players[1] = [Plrs[0],0]
         self.Players[-1] = [Plrs[1],0]
@@ -42,7 +42,10 @@ class Board():
                 elif move[1] == "L":
                     self.Board[move[0][1]+1][move[0][0]+1] = 0
                     self.Board[move[0][1]-1+1][move[0][0]-1+1] = self.Turn
-                self.turn_pause = Pause(15)
+                if self.Should_pause:
+                    self.turn_pause = Pause(15)
+                else:
+                    self.turn_pause = Pause(0)
         elif self.moved and self.turn_pause.Update():
             self.moved = False
             win = self.Win()
@@ -117,7 +120,7 @@ class Board():
     def NewGame(self):
         return self.win
     
-    def ShowWinner(self, scrn, font):
+    def ShowWinner(self, screen, font):
         if self.win:
             screen.fill((255,255,255))
             if self.Turn == 1:
@@ -126,12 +129,12 @@ class Board():
             else:
                 text = "Black wins!"
                 text_obj = font.render(text, True, (0,0,0))
-            scrn.blit(text_obj, ((SCREEN_WIDTH-text_obj.get_width())//2,(SCREEN_HEIGHT-text_obj.get_height())//2))
-            #EK HOOP DIE VOLGENDE IS REG:
-            #pygame.display.flip()
-            self.turn_pause = Pause(35)  # Pause for 2 seconds (assuming 60 FPS)
-            while not self.turn_pause.Update():
-                pygame.time.delay(1)
+            screen.blit(text_obj, ((SCREEN_WIDTH-text_obj.get_width())//2,(SCREEN_HEIGHT-text_obj.get_height())//2))
+
+#            if self.Should_pause:
+#                self.turn_pause = Pause(1)
+#            else:
+#                self.turn_pause = Pause(1)
 
 
 class Pause():
