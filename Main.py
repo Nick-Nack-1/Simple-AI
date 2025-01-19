@@ -66,7 +66,7 @@ while running:
 
     if Game.NewGame():
         if Game_end_delay.Update():
-            chart.write(f"{Human.score+AI.score},{Human.score},{AI.score}\n")
+            chart.write(f"{Human.score+AI.score},{AI.score},{Human.score}\n")
             new_game()
             if Game.Should_pause:
                 Game_end_delay = Table.Pause(30)
