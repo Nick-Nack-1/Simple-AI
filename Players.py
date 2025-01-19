@@ -107,11 +107,12 @@ class AI():
         for m in move:
             for count in range(m[2]):
                 bowl.append(m)
-        if bowl == []:
+        if len(bowl) == 0:
             self.last_move[2] = 1
             print("Resigning")
-            self.game.Resign()
-            return
+            self.last_move = move[randint(0,len(move)-1)]
+            return self.last_move[0:2]
+    
         else:
             self.last_move = bowl[randint(0,len(bowl)-1)]
             return self.last_move[0:2]
@@ -121,7 +122,8 @@ class AI():
             self.score += 1
             self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
         else:
-            self.last_move[2] -= 1
+            if self.last_move[2] > 0:
+                self.last_move[2] -= 1
 
     def Draw(self, screen):
         if self.board != None:
@@ -145,3 +147,58 @@ class AI():
                     elif dot == -1:
                         pygame.draw.circle(screen, (255,0,0), center=pos, radius=grid_space[1]//2 -4)
             
+
+class DummyAI():
+    def __init__(self):
+        self.last_move = [(0,0),"M",0]
+        self.score = 0
+        self.board = None
+        
+    def setup(self, board_obj):
+        self.game = board_obj
+    
+    def GetBoard(self, board):
+        self.board = board
+    
+    def Play(self, board, plr_key:int) -> list|None:
+        board_state = ()
+        for y in range(len(board)-2):
+            board_state = board_state + tuple(board[y+1][1:-1])
+
+        Moves = []
+        for y in range(len(board)-2):
+            for x in range(len(board[0])-2):
+                if board[y+1][x+1] == plr_key:
+                    for m in ["M","L","R"]:
+                        if self.game.ValidateMove(((x,y),m), board):
+                            Moves.append([(x,y),m,1])
+        
+
+        if len(Moves) != 0:
+            self.last_move = Moves[randint(0,len(Moves)-1)]
+            return self.last_move[0:2]
+    
+    def End(self, win:bool):
+        pass
+
+    def Draw(self, screen):
+        if self.board != None:
+            size = (len(self.game.Board[0]),len(self.game.Board))
+            grid_space = (int(SCREEN_WIDTH/(size[0]-2)),int(SCREEN_HEIGHT/(size[1]-2)))
+            ##Grid
+            for y in range(size[1]-3):
+                y_pos = grid_space[1]*(y+1)
+                pygame.draw.line(screen, ((128,128,128)),(0,y_pos), (SCREEN_WIDTH,y_pos),width=3)
+            for x in range(size[0]-3):
+                x_pos = grid_space[0]*(x+1)
+                pygame.draw.line(screen, ((128,128,128)),(x_pos,0), (x_pos, SCREEN_WIDTH),width=3)
+
+            ##Dots
+            for y in range(size[1]-2):
+                for x in range(size[0]-2):
+                    dot = self.board[y+1][x+1]
+                    pos = (x*grid_space[0]+grid_space[0]//2, y*grid_space[1]+grid_space[1]//2)
+                    if dot == 1:
+                        pygame.draw.circle(screen, (0,0,0), center=pos, radius=grid_space[1]//2 -4)
+                    elif dot == -1:
+                        pygame.draw.circle(screen, (255,0,0), center=pos, radius=grid_space[1]//2 -4)

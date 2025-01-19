@@ -18,12 +18,17 @@ class Board():
         self.Size = Board_size
 
         self.Board = []
-        self.Board = [[3,3,3,3,3,3],
-                      [3,-1,-1,-1,-1,3],
-                      [3,0,0,0,0,3],
-                      [3,0,0,0,0,3],
-                      [3,1,1,1,1,3],
-                      [3,3,3,3,3,3]]
+        self.Board = [[3,3,3,3,3],
+                      [3,-1,-1,-1,3],
+                      [3,0,0,0,3],
+                      [3,1,1,1,3],
+                      [3,3,3,3,3]]
+        # self.Board = [[3,3,3,3,3,3],
+        #               [3,-1,-1,-1,-1,3],
+        #               [3,0,0,0,0,3],
+        #               [3,0,0,0,0,3],
+        #               [3,1,1,1,1,3],
+        #               [3,3,3,3,3,3]]
     
 
     def Update(self):
@@ -75,7 +80,7 @@ class Board():
     def Win(self) -> bool:
         #1
         if self.Turn in self.Board[1]:
-            print("Border win")
+            # print("Border win")
             return True
         #2
         surviver = True
@@ -84,7 +89,7 @@ class Board():
                 surviver = False
                 break
         if surviver:
-            print("Surviver win")
+            # print("Surviver win")
             return True
 
     def StalemateCheck(self):
@@ -96,8 +101,8 @@ class Board():
                         if self.ValidateMove(((x,y),m), self.Board):
                             Stalemate = False
                             break
-        if Stalemate:
-            print("Stalemate")
+        # if Stalemate:
+            # print("Stalemate")
         return Stalemate
     
     def Resign(self):
