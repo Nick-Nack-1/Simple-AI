@@ -1,8 +1,6 @@
 Notas en to-do's:
 ----------------
-fix stalemate problem by 0,0,0,-1,-1,1,0,0,-1
 
-Add n 2/3 sek delay na ai n winning move gemaak het sodat jy kan sien wat hy gedoen het 
 
 
 
