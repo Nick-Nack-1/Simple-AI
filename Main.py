@@ -17,8 +17,6 @@ running = True
 Input = Inputs.Input_events()
 Mouse = Inputs.Mouse()
 
-Train_mode =	False
-
 chart = open("chart.txt", "w")
 chart.write("Total,Red,Black\n")
 
@@ -29,8 +27,8 @@ Human = Players.Human(Input, Mouse)
 AI = Players.AI()
 Game = None
 def new_game():
-	global Game, AI, Human, Train_mode
-	Game = Table.Board([AI,Human], (3,3), not Train_mode)
+	global Game, AI, Human
+	Game = Table.Board([AI,Human], (3,3), True)
 	AI.setup(Game)
 	Human.setup(Game)
 
@@ -50,8 +48,7 @@ def draw_text(text, font, color, surface, pos):
 
 
 while running:
-	if not Train_mode:
-		clock.tick(fps)
+	clock.tick(fps)
 	Input.reset_events()
 	Mouse.update()
 
@@ -71,6 +68,7 @@ while running:
 	else:
 		Game.Update()
 	
+	
 	if Input.keys["F1"]:
 		with open("./AIs/DummyAI.txt", "wb") as file:
 			print("saving")
@@ -89,20 +87,13 @@ while running:
 			pprint.pprint(AI.Moves, file)
 	if Mouse.press_triggered("Right"):
 		Game.Should_pause = not Game.Should_pause
-		Train_mode = not Train_mode
-	
-	if not Train_mode:
-		screen.fill((255,255,255))
-		Human.Draw(screen=screen)
-		Game.ShowWinner(screen, font2)
 
 
+	screen.fill((255,255,255))
+	Human.Draw(screen=screen)
+	Game.ShowWinner(screen, font2)
 	pygame.display.set_caption(f"Red: {AI.score} | Black: {Human.score} | Game no.: {Human.score+AI.score}")
-	#draw_text(f"Game no.: {plr1.score+plr2.score}", font, (50,50,50), screen, (0,0))
-	#draw_text(f"Red(AI): {plr2.score}", font, (50,50,50), screen, (0,20))
-	#draw_text(f"Black: {plr1.score}", font, (50,50,50), screen, (0,40))
-	
-	if not Train_mode:
-		pygame.display.update()
+
+	pygame.display.update()
 
 chart.close()

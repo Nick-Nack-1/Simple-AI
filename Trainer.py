@@ -26,8 +26,8 @@ if os.path.exists("./AIs/CurrentAI.txt"):
 Game = None
 
 def new_game():
-	global Game, AI, Human, Train_mode
-	Game = Table.Board([Human,AI], (3,3), False)
+	global Game, AI, Human
+	Game = Table.Board([AI,Human], (3,3), False)
 	AI.setup(Game)
 	Human.setup(Game)
 
