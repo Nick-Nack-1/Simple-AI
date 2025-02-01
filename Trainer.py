@@ -17,7 +17,7 @@ chart = open("chart.txt", "a")
 chart.write("Total,Red,Black, Diff\n")
 
 # Human = Players.DummyAI()
-Human = Players.AI()
+Human = Players.DummyAI()
 # AI = Players.Human(Input, Mouse)
 AI = Players.AI()
 if os.path.exists("./AIs/CurrentAI.txt"):
@@ -27,7 +27,7 @@ Game = None
 
 def new_game():
 	global Game, AI, Human
-	Game = Table.Board([Human,AI], (3,3), False)
+	Game = Table.Board([AI,Human], (3,3), False)
 	AI.setup(Game)
 	Human.setup(Game)
 

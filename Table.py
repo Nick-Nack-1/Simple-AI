@@ -10,6 +10,7 @@ class Board():
 		self.Players[-1] = [Plrs[1],0]
 		
 		self.Turn = 1
+		self.Turn_count = 7
 		self.moved = False
 		self.turn_pause = None
 		self.win = False
@@ -17,17 +18,17 @@ class Board():
 		self.Size = Board_size
 
 		self.Board = []
-		self.Board = [[3,3,3,3,3],
-		              [3,-1,-1,-1,3],
-		              [3,0,0,0,3],
-		              [3,1,1,1,3],
-		              [3,3,3,3,3]]
-		# self.Board = [[3,3,3,3,3,3],
-		# 			  [3,-1,-1,-1,-1,3],
-		# 			  [3,0,0,0,0,3],
-		# 			  [3,0,0,0,0,3],
-		# 			  [3,1,1,1,1,3],
-		# 			  [3,3,3,3,3,3]]
+		# self.Board = [[3,3,3,3,3],
+		#               [3,-1,-1,-1,3],
+		#               [3,0,0,0,3],
+		#               [3,1,1,1,3],
+		#               [3,3,3,3,3]]
+		self.Board = [[3,3,3,3,3,3],
+					  [3,-1,-1,-1,-1,3],
+					  [3,0,0,0,0,3],
+					  [3,0,0,0,0,3],
+					  [3,1,1,1,1,3],
+					  [3,3,3,3,3,3]]
 	
 
 	def Update(self):
@@ -61,6 +62,7 @@ class Board():
 				self.Players[self.Turn][0].End(True)
 				self.Players[self.Turn*-1][0].End(False)
 			self.Turn = self.Turn*-1
+			self.Turn_count -= 1
 	
 
 	def ValidateMove(self, move:tuple, board) -> bool:
