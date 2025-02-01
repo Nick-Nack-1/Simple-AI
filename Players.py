@@ -100,7 +100,7 @@ class AI():
 					if board[y+1][x+1] == plr_key:
 						for m in ["M","L","R"]:
 							if self.game.ValidateMove(((x,y),m), board):
-								self.Moves[board_state].append([(x,y),m,1])
+								self.Moves[board_state].append([(x,y),m, 4])
 
 		move = self.Moves[board_state]
 		bowl = []
@@ -110,9 +110,9 @@ class AI():
 		if len(bowl) == 0:
 			self.last_move[2] = 0
 			print("Resigning")
-			self.game.Resign()
-			# self.last_move = move[randint(0,len(move)-1)]
-			# return self.last_move[0:2]
+			# self.game.Resign()
+			self.last_move = move[randint(0,len(move)-1)]
+			return self.last_move[0:2]
 	
 		else:
 			self.last_move = bowl[randint(0,len(bowl)-1)]
