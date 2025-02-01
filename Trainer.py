@@ -8,7 +8,7 @@ from GLOBALS import *
 
 # 14 141 lines
 
-# ~ 100 000 per min
+# ~ 1700 per min
 max_cycle = int(input("Max cycles? "))
 os.remove("chart.txt")
 current_cycle = 0
