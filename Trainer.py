@@ -27,7 +27,7 @@ Game = None
 
 def new_game():
 	global Game, AI, Human
-	Game = Table.Board([AI,Human], (3,3), False)
+	Game = Table.Board([Human,AI], (3,3), False)
 	AI.setup(Game)
 	Human.setup(Game)
 
@@ -35,10 +35,9 @@ new_game()
 
 
 while current_cycle < max_cycle:
-	current_cycle += 1
-
 	if Game.NewGame():
 		chart.write(f"{Human.score+AI.score},{Human.score},{AI.score},{Human.score-AI.score}\n")
+		current_cycle += 1
 		new_game()
 
 	else:

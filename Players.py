@@ -108,10 +108,11 @@ class AI():
 			for count in range(m[2]):
 				bowl.append(m)
 		if len(bowl) == 0:
-			self.last_move[2] = 1
+			self.last_move[2] = 0
 			print("Resigning")
-			self.last_move = move[randint(0,len(move)-1)]
-			return self.last_move[0:2]
+			self.game.Resign()
+			# self.last_move = move[randint(0,len(move)-1)]
+			# return self.last_move[0:2]
 	
 		else:
 			self.last_move = bowl[randint(0,len(bowl)-1)]
@@ -120,7 +121,7 @@ class AI():
 	def End(self, win:bool):
 		if win:
 			self.score += 1
-			#self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
+			self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
 		else:
 			if self.last_move[2] > 0:
 				self.last_move[2] -= 1
