@@ -10,6 +10,8 @@ from GLOBALS import *
 
 # ~ 100 000 per min
 max_cycle = int(input("Max cycles? "))
+print(f"time: {max_cycle/1700} minutes")
+input("Press enter")
 os.remove("chart.txt")
 current_cycle = 0
 
