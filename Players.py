@@ -109,7 +109,7 @@ class AI():
 				bowl.append(m)
 		if len(bowl) == 0:
 			self.last_move[2] = 0
-			print("Resigning")
+			# print("Resigning")
 			# self.game.Resign()
 			self.last_move = move[randint(0,len(move)-1)]
 			return self.last_move[0:2]
@@ -154,6 +154,7 @@ class DummyAI():
 		self.last_move = [(0,0),"M",0]
 		self.score = 0
 		self.board = None
+		self.Moves = None	#place holder
 		
 	def setup(self, board_obj):
 		self.game = board_obj

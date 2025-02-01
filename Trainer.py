@@ -4,14 +4,16 @@ import Inputs
 import pickle
 import pprint
 import os
+import time
 from GLOBALS import *
 
 # 14 141 lines
 
 # ~ 1700 per min
 max_cycle = int(input("Max cycles? "))
-print(f"time: {max_cycle/1700} minutes")
-input("Press enter")
+print(f"time: {max_cycle/18999} minutes")
+input("Press enter to start.")
+print("Please wait...")
 os.remove("chart.txt")
 current_cycle = 0
 
@@ -35,6 +37,7 @@ def new_game():
 
 new_game()
 
+start_time = time.time()
 
 while current_cycle < max_cycle:
 	if Game.NewGame():
@@ -47,6 +50,7 @@ while current_cycle < max_cycle:
 	
 	#print(f"Cycle {current_cycle}: {Human.score},{AI.score}, DIFF: {Human.score-AI.score}")
 
+print(f"Completion time: {(time.time()-start_time)/60} minutes")
 
 with open("./AIs/CurrentAI.txt", "wb") as file:
 	pickle.dump(AI.Moves, file)

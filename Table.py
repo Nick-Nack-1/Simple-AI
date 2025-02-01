@@ -81,7 +81,7 @@ class Board():
 	def Win(self) -> bool:
 		#1
 		if self.Turn in self.Board[1]:
-			print(f"Border win by {'Red' if self.Turn == -1 else 'Black'}")
+			# print(f"Border win by {'Red' if self.Turn == -1 else 'Black'}")
 			return True
 		#2
 		surviver = True
@@ -90,7 +90,7 @@ class Board():
 				surviver = False
 				break
 		if surviver:
-			print(f"Surviver win for {'Red' if self.Turn == -1 else 'Black'}")
+			# print(f"Surviver win for {'Red' if self.Turn == -1 else 'Black'}")
 			return True
 
 	def StalemateCheck(self):
@@ -102,8 +102,8 @@ class Board():
 						if self.ValidateMove(((x,y),m), self.Board):
 							Stalemate = False
 							break
-		if Stalemate:
-			print(f"Stalemate win for {'Red' if self.Turn == -1 else 'Black'}")
+		# if Stalemate:
+		# 	print(f"Stalemate win for {'Red' if self.Turn == -1 else 'Black'}")
 		return Stalemate
 	
 	def Resign(self):
