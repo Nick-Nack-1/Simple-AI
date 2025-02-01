@@ -10,6 +10,8 @@ from GLOBALS import *
 
 # ~ 1700 per min
 max_cycle = int(input("Max cycles? "))
+print(f"time: {max_cycle/1700} minutes")
+input("Press enter")
 os.remove("chart.txt")
 current_cycle = 0
 
@@ -43,7 +45,7 @@ while current_cycle < max_cycle:
 	else:
 		Game.Update()
 	
-	print(f"Cycle {current_cycle}: {Human.score},{AI.score}, DIFF: {Human.score-AI.score}")
+	#print(f"Cycle {current_cycle}: {Human.score},{AI.score}, DIFF: {Human.score-AI.score}")
 
 
 with open("./AIs/CurrentAI.txt", "wb") as file:
@@ -53,5 +55,6 @@ with open("./AIs/CurrentAIv2.txt", "wb") as file:
 with open("PrintOut.txt", "w") as file:
 	pprint.pprint(AI.Moves, file)
 
+print("Done")
 chart.close()
 
