@@ -39,6 +39,11 @@ self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1],[(0,2),"R",1]]
 
 
 
+onewe aantal rontes beteken eerste speler gaan wen
+en vice versa
+
+
+
 3 by 3
 2
 4
@@ -51,3 +56,11 @@ self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1],[(0,2),"R",1]]
 7
 9
 11
+13
+15
+17
+19
+21
+23
+25
+27
