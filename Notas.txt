@@ -39,7 +39,6 @@ self.Moves[(1,0,1,0,1,0,-1,-1,-1)] = [[(0,2),"M", 1],[(0,2),"R",1]]
 
 
 
-
 onewe aantal rontes beteken eerste speler gaan wen
 en vice versa
 
