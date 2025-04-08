@@ -51,6 +51,7 @@ while current_cycle < max_cycle:
 	#print(f"Cycle {current_cycle}: {Human.score},{AI.score}, DIFF: {Human.score-AI.score}")
 
 print(f"Completion time: {(time.time()-start_time)/60} minutes")
+print(f"Games per minute: {max_cycle/((time.time()-start_time)/60)}")
 
 with open("./AIs/CurrentAI.txt", "wb") as file:
 	pickle.dump(AI.Moves, file)
