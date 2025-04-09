@@ -21,17 +21,20 @@ chart = open("chart.txt", "a")
 chart.write("Total,Red,Black, Diff\n")
 
 # Human = Players.DummyAI()
-Human = Players.DummyAI()
+Human = Players.AI_V2()
 # AI = Players.Human(Input, Mouse)
 AI = Players.AI()
 if os.path.exists("./AIs/CurrentAI.txt"):
 	with open("./AIs/CurrentAI.txt", "rb") as file:
 		AI.Moves = pickle.load(file)
+if os.path.exists("./AIs/CurrentAIv2.txt"):
+	with open("./AIs/CurrentAIv2.txt", "rb") as file:
+		Human.Moves = pickle.load(file)
 Game = None
 
 def new_game():
 	global Game, AI, Human
-	Game = Table.Board([AI,Human], (3,3), False)
+	Game = Table.Board([Human, AI], (3,3), False)
 	AI.setup(Game)
 	Human.setup(Game)
 
@@ -41,7 +44,7 @@ start_time = time.time()
 
 while current_cycle < max_cycle:
 	if Game.NewGame():
-		chart.write(f"{Human.score+AI.score},{Human.score},{AI.score},{Human.score-AI.score}\n")
+		chart.write(f"{current_cycle},{Human.score},{AI.score},{Human.score-AI.score}\n")
 		current_cycle += 1
 		new_game()
 

@@ -18,17 +18,17 @@ class Board():
 		self.Size = Board_size
 
 		self.Board = []
-		# self.Board = [[3,3,3,3,3],
-		#               [3,-1,-1,-1,3],
-		#               [3,0,0,0,3],
-		#               [3,1,1,1,3],
-		#               [3,3,3,3,3]]
-		self.Board = [[3,3,3,3,3,3],
-					  [3,-1,-1,-1,-1,3],
-					  [3,0,0,0,0,3],
-					  [3,0,0,0,0,3],
-					  [3,1,1,1,1,3],
-					  [3,3,3,3,3,3]]
+		self.Board = [[3,3,3,3,3],
+		              [3,-1,-1,-1,3],
+		              [3,0,0,0,3],
+		              [3,1,1,1,3],
+		              [3,3,3,3,3]]
+		# self.Board = [[3,3,3,3,3,3],
+		# 			  [3,-1,-1,-1,-1,3],
+		# 			  [3,0,0,0,0,3],
+		# 			  [3,0,0,0,0,3],
+		# 			  [3,1,1,1,1,3],
+		# 			  [3,3,3,3,3,3]]
 	
 
 	def Update(self):
@@ -80,9 +80,9 @@ class Board():
 	
 	def Win(self) -> bool:
 		#1
-		if self.Turn in self.Board[1]:
-			# print(f"Border win by {'Red' if self.Turn == -1 else 'Black'}")
-			return True
+		# if self.Turn in self.Board[1]:
+		# 	# print(f"Border win by {'Red' if self.Turn == -1 else 'Black'}")
+		# 	return True
 		#2
 		surviver = True
 		for layer in self.Board:
