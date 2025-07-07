@@ -16,19 +16,10 @@ class Board():
 		self.win = False
 
 		self.Size = Board_size
-
-		self.Board = []
-		# self.Board = [[3,3,3,3,3],
-		#               [3,-1,-1,-1,3],
-		#               [3,0,0,0,3],
-		#               [3,1,1,1,3],
-		#               [3,3,3,3,3]]
-		self.Board = [[3,3,3,3,3,3],
-					  [3,-1,-1,-1,-1,3],
-					  [3,0,0,0,0,3],
-					  [3,0,0,0,0,3],
-					  [3,1,1,1,1,3],
-					  [3,3,3,3,3,3]]
+		
+		possible_boards = {(3,3):[[3,3,3,3,3],[3,-1,-1,-1,3],[3,0,0,0,3],[3,1,1,1,3],[3,3,3,3,3]],
+						   (4,4):[[3,3,3,3,3,3],[3,-1,-1,-1,-1,3],[3,0,0,0,0,3],[3,0,0,0,0,3],[3,1,1,1,1,3],[3,3,3,3,3,3]]}
+		self.Board = possible_boards[Board_size]
 	
 
 	def Update(self):
@@ -56,8 +47,11 @@ class Board():
 			win = self.Win()
 			self.Board = self.Rotate()
 			if self.StalemateCheck():
-				win = True
-			if win:
+				##CHANGED IN RULE CHANGE
+				self.win = True
+				self.Players[self.Turn][0].End(False)
+				self.Players[self.Turn*-1][0].End(True)
+			elif win:
 				self.win = True
 				self.Players[self.Turn][0].End(True)
 				self.Players[self.Turn*-1][0].End(False)
@@ -90,7 +84,6 @@ class Board():
 				surviver = False
 				break
 		if surviver:
-			# print(f"Surviver win for {'Red' if self.Turn == -1 else 'Black'}")
 			return True
 
 	def StalemateCheck(self):

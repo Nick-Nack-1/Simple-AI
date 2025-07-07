@@ -12,6 +12,16 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 fps = 60
 clock = pygame.time.Clock()
 
+# Initialize font
+font = pygame.font.SysFont("Arial", 20, bold=True)
+font2 = pygame.font.SysFont("Arial", 40, bold=True)
+
+def draw_text(text, font, color, surface, pos):
+	textobj = font.render(text, True, color)
+	textrect = textobj.get_rect()
+	textrect.topleft = pos
+	surface.blit(textobj, textrect)
+
 running = True
 
 Input = Inputs.Input_events()
@@ -25,27 +35,19 @@ Human = Players.Human(Input, Mouse)
 # Human = Players.AI()
 # AI = Players.Human(Input, Mouse)
 AI = Players.AI()
+AI.Feedback_algo = 3
 Game = None
 def new_game():
 	global Game, AI, Human
-	Game = Table.Board([AI,Human], (3,3), True)
+	Game = Table.Board([Human,AI], (3,3), True)
 	AI.setup(Game)
 	Human.setup(Game)
 
 Game_end_delay = Table.Pause(30)
 
+Game_count = 0
+
 new_game()
-
-# Initialize font
-font = pygame.font.SysFont("Arial", 20, bold=True)
-font2 = pygame.font.SysFont("Arial", 40, bold=True)
-
-def draw_text(text, font, color, surface, pos):
-	textobj = font.render(text, True, color)
-	textrect = textobj.get_rect()
-	textrect.topleft = pos
-	surface.blit(textobj, textrect)
-
 
 while running:
 	clock.tick(fps)
@@ -58,8 +60,9 @@ while running:
 		Input.update(event)
 
 	if Game.NewGame():
+		Game_count +=1
 		if Game_end_delay.Update():
-			chart.write(f"{Human.score+AI.score},{Human.score},{AI.score}\n")
+			chart.write(f"{Game_count},{Human.score},{AI.score}\n")
 			new_game()
 			if Game.Should_pause:
 				Game_end_delay = Table.Pause(30)
@@ -92,7 +95,7 @@ while running:
 	screen.fill((255,255,255))
 	Human.Draw(screen=screen)
 	Game.ShowWinner(screen, font2)
-	pygame.display.set_caption(f"Red: {AI.score} | Black: {Human.score} | Game no.: {Human.score+AI.score}")
+	pygame.display.set_caption(f"Red: {AI.score} | Black: {Human.score} | Game no.: {Game_count}")
 
 	pygame.display.update()
 

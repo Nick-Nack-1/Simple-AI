@@ -1,7 +1,7 @@
 import Table
 import pygame
 import Inputs
-from random import randint
+import random
 from GLOBALS import *
 
 class Human():
@@ -12,6 +12,7 @@ class Human():
 		self.select_pos = None
 
 		self.score = 0
+		
 
 	def setup(self, board_obj):
 		self.game = board_obj
@@ -79,8 +80,13 @@ class AI():
 	def __init__(self):
 		self.last_move = [(0,0),"M",0]
 		self.score = 0
-		self.Moves = {}
+		self.State_Table = {}
 		self.board = None
+		self.Feedback_algo = 0
+		self.base_weight_score = 2
+		self.reward_num = 0
+		self.punish_num = 0
+		#0 = no feedback, 1 = feedback on loss, 2 = feedback on win, 3 = feedback on both
 		
 	def setup(self, board_obj):
 		self.game = board_obj
@@ -93,38 +99,49 @@ class AI():
 		for y in range(len(board)-2):
 			board_state = board_state + tuple(board[y+1][1:-1])
 
-		if board_state not in self.Moves:
-			self.Moves[board_state] = []
+		if board_state not in self.State_Table:
+			self.State_Table[board_state] = []
 			for y in range(len(board)-2):
 				for x in range(len(board[0])-2):
 					if board[y+1][x+1] == plr_key:
 						for m in ["M","L","R"]:
 							if self.game.ValidateMove(((x,y),m), board):
-								self.Moves[board_state].append([(x,y),m, 4])
+								self.State_Table[board_state].append([(x,y),m, self.base_weight_score])
 
-		move = self.Moves[board_state]
-		bowl = []
-		for m in move:
-			for count in range(m[2]):
-				bowl.append(m)
-		if len(bowl) == 0:
-			self.last_move[2] = 0
-			# print("Resigning")
-			# self.game.Resign()
-			self.last_move = move[randint(0,len(move)-1)]
+		possible_moves = self.State_Table[board_state]
+		weights = []
+		weight_sum = 0
+		for m in possible_moves:
+			weight_sum += m[2]
+			weights.append(m[2])
+
+		if weight_sum == 0:
+			if self.Feedback_algo != 0:
+				self.last_move[2] = 0
+				self.punish_num += 1
+			self.last_move = possible_moves[random.randint(0,len(possible_moves)-1)]
 			return self.last_move[0:2]
-	
 		else:
-			self.last_move = bowl[randint(0,len(bowl)-1)]
+			self.current_move = random.choices(possible_moves, weights=weights, k=1)[0]
+			if self.current_move[2] > self.base_weight_score*2:
+				if self.Feedback_algo != 0:
+					self.last_move[2] += 1
+					self.reward_num += 1
+			self.last_move = self.current_move
 			return self.last_move[0:2]
 	
 	def End(self, win:bool):
 		if win:
 			self.score += 1
-			# self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
+			if self.Feedback_algo == 2 or self.Feedback_algo == 3:
+				self.last_move[2] += 1  #haal die lyn uit vir ai om vinniger te leer
+				self.reward_num += 1
 		else:
-			if self.last_move[2] > 0:
-				self.last_move[2] -= 1
+			if self.Feedback_algo == 1 or self.Feedback_algo == 3:
+				if self.last_move[2] > 0:
+					self.last_move[2] -= 1
+					self.punish_num += 1
+		self.last_move = [(0,0),"M",0]
 
 	def Draw(self, screen):
 		if self.board != None:
@@ -154,7 +171,7 @@ class DummyAI():
 		self.last_move = [(0,0),"M",0]
 		self.score = 0
 		self.board = None
-		self.Moves = None	#place holder
+		self.State_Table = None	#place holder
 		
 	def setup(self, board_obj):
 		self.game = board_obj
@@ -177,7 +194,7 @@ class DummyAI():
 		
 
 		if len(Moves) != 0:
-			self.last_move = Moves[randint(0,len(Moves)-1)]
+			self.last_move = Moves[random.randint(0,len(Moves)-1)]
 			return self.last_move[0:2]
 	
 	def End(self, win:bool):
