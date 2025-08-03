@@ -14,15 +14,15 @@ from GLOBALS import *
 TotalRuns = 100
 Traincycles = 10
 Testcycles = 1000
-TotalLoops = 100
+TotalLoops = 200
 current_cycle = 0
 feedback_algo = 1
 #1 = feedback on loss, 2 = feedback on win, 3 = feedback on both
 
-# TotalRuns = 3
+# TotalRuns = 2
 # Traincycles = 10
 # Testcycles = 100
-# TotalLoops = 50
+# TotalLoops = 100
 # current_cycle = 0
 
 Human = Players.DummyAI()

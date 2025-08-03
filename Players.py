@@ -118,7 +118,6 @@ class AI():
 		if weight_sum == 0:
 			if self.Feedback_algo != 0:
 				self.last_move[2] = 0
-				self.punish_num += 1
 			self.last_move = possible_moves[random.randint(0,len(possible_moves)-1)]
 			return self.last_move[0:2]
 		else:
@@ -126,7 +125,6 @@ class AI():
 			if self.current_move[2] > self.base_weight_score*2:
 				if self.Feedback_algo != 0:
 					self.last_move[2] += 1
-					self.reward_num += 1
 			self.last_move = self.current_move
 			return self.last_move[0:2]
 	

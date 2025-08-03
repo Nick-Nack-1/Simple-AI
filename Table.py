@@ -44,23 +44,22 @@ class Board():
 					self.turn_pause = Pause(0)
 		elif self.moved and self.turn_pause.Update():
 			self.moved = False
-			win = self.Win()
-			self.Board = self.Rotate()
-			if self.StalemateCheck():
+			if self.Win():
+				self.win = True
+				self.Players[self.Turn][0].End(True)
+				self.Players[self.Turn*-1][0].End(False)
+			elif self.StalemateCheck():
 				##CHANGED IN RULE CHANGE
 				self.win = True
 				self.Players[self.Turn][0].End(False)
 				self.Players[self.Turn*-1][0].End(True)
-			elif win:
-				self.win = True
-				self.Players[self.Turn][0].End(True)
-				self.Players[self.Turn*-1][0].End(False)
+			self.Board = self.Rotate()
 			self.Turn = self.Turn*-1
 			self.Turn_count -= 1
 	
 
 	def ValidateMove(self, move:tuple, board) -> bool:
-		pawn_type = self.Board[move[0][1]+1][move[0][0]+1]
+		pawn_type = board[move[0][1]+1][move[0][0]+1]
 		if move[1] == "M":
 			if board[move[0][1]-1 +1][move[0][0] +1] == 0:
 				return True
@@ -87,12 +86,13 @@ class Board():
 			return True
 
 	def StalemateCheck(self):
+		board = self.Rotate()
 		Stalemate = True
-		for y in range(len(self.Board)-2):
-			for x in range(len(self.Board[0])-2):
-				if self.Board[y+1][x+1] == self.Turn*-1:
+		for y in range(len(board)-2):
+			for x in range(len(board[0])-2):
+				if board[y+1][x+1] == self.Turn*-1:
 					for m in ("L","M","R"):
-						if self.ValidateMove(((x,y),m), self.Board):
+						if self.ValidateMove(((x,y),m), board):
 							Stalemate = False
 							break
 		# if Stalemate:
