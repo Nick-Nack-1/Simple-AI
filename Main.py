@@ -12,70 +12,91 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 fps = 60
 clock = pygame.time.Clock()
 
-running = True
-
-Input = Inputs.Input_events()
-Mouse = Inputs.Mouse()
-
-plr1 = Players.Human(screen, Input, Mouse)
-plr2 = Players.AI()
-Game = None
-def new_game():
-    global Game, plr1, plr2
-    Game = Table.Board([plr1,plr2], (3,3))
-    plr1.setup(Game)
-    plr2.setup(Game)
-
-Game_end_delay = Table.Pause(30)
-
-new_game()
-
 # Initialize font
 font = pygame.font.SysFont("Arial", 20, bold=True)
 font2 = pygame.font.SysFont("Arial", 40, bold=True)
 
 def draw_text(text, font, color, surface, pos):
-    textobj = font.render(text, True, color)
-    textrect = textobj.get_rect()
-    textrect.topleft = pos
-    surface.blit(textobj, textrect)
+	textobj = font.render(text, True, color)
+	textrect = textobj.get_rect()
+	textrect.topleft = pos
+	surface.blit(textobj, textrect)
 
+running = True
+
+Input = Inputs.Input_events()
+Mouse = Inputs.Mouse()
+
+chart = open("chart.txt", "w")
+chart.write("Total,Red,Black\n")
+
+Human = Players.Human(Input, Mouse)
+# Human = Players.DummyAI()
+# Human = Players.AI()
+# AI = Players.Human(Input, Mouse)
+AI = Players.AI()
+AI.Feedback_algo = 3
+Game = None
+def new_game():
+	global Game, AI, Human
+	Game = Table.Board([Human,AI], (3,3), True)
+	AI.setup(Game)
+	Human.setup(Game)
+
+Game_end_delay = Table.Pause(30)
+
+Game_count = 0
+
+new_game()
 
 while running:
-    clock.tick(fps)
-    Input.reset_events()
-    Mouse.update()
+	clock.tick(fps)
+	Input.reset_events()
+	Mouse.update()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        Input.update(event)
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			running = False
+		Input.update(event)
 
-    if Game.NewGame():
-        if Game_end_delay.Update():
-            new_game()
-            Game_end_delay = Table.Pause(30)
-    else:
-        Game.Update()
-    
-    if Input.keys["F1"]:
-        with open("./AIs/CurrentAI.txt", "wb") as file:
-            print("saving")
-            pickle.dump(plr2.Moves, file)
-    if Input.keys["F2"]:
-        with open("./AIs/CurrentAI.txt", "rb") as file:
-            print("loading")
-            plr2.Moves = pickle.load(file)
-    if Input.keys["F3"]:
-        with open("PrintOut.txt", "w") as file:
-            print("printout")
-            pprint.pprint(plr2.Moves, file)
+	if Game.NewGame():
+		Game_count +=1
+		if Game_end_delay.Update():
+			chart.write(f"{Game_count},{Human.score},{AI.score}\n")
+			new_game()
+			if Game.Should_pause:
+				Game_end_delay = Table.Pause(30)
+			else:
+				Game_end_delay = Table.Pause(0)
+	else:
+		Game.Update()
+	
+	
+	if Input.keys["F1"]:
+		with open("./AIs/DummyAI.txt", "wb") as file:
+			print("saving")
+			pickle.dump(Human.Moves, file)
+	if Input.keys["F2"]:
+		with open("./AIs/CurrentAI.txt", "wb") as file:
+			print("saving")
+			pickle.dump(AI.Moves, file)
+	if Input.keys["F3"]:
+		with open("./AIs/CurrentAI.txt", "rb") as file:
+			print("loading")
+			AI.Moves = pickle.load(file)
+	if Input.keys["Return"]:
+		with open("PrintOut.txt", "w") as file:
+			print("printout")
+			pprint.pprint(AI.Moves, file)
+	if Mouse.press_triggered("Right"):
+		Game.Should_pause = not Game.Should_pause
 
-    screen.fill((255,255,255))
-    plr1.Draw()
-    Game.ShowWinner(screen, font2)
 
+	screen.fill((255,255,255))
+	Human.Draw(screen=screen)
+	Game.ShowWinner(screen, font2)
+	pygame.display.set_caption(f"Red: {AI.score} | Black: {Human.score} | Game no.: {Game_count}")
 
-    pygame.display.set_caption(f"Red(AI): {plr2.score} | Black(You): {plr1.score}  |  Game no.: {plr1.score+plr2.score}")
-    
-    pygame.display.update()
+	pygame.display.update()
+
+chart.close()

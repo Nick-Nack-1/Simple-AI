@@ -51,7 +51,7 @@
         <mxCell id="ZMsd0Xr_cn_KEks0v0e5-12" value="Situasie op bord" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="305" y="300" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ZMsd0Xr_cn_KEks0v0e5-13" value="key wat gegee word vir self.Moves dictionary in AI class" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="ZMsd0Xr_cn_KEks0v0e5-13" value="key wat gegee word vir self.State_Table dictionary in AI class" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="485" y="340" width="170" height="30" as="geometry" />
         </mxCell>
         <mxCell id="ZMsd0Xr_cn_KEks0v0e5-14" value="1:mens" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
