@@ -85,6 +85,9 @@ class Input_events():
 		self.keys["W"] = False
 		self.keys["E"] = False
 
+		self.keys["T"] = False
+		self.keys["U"] = False
+
 		self.mouse_wheel = 0
 		# ^ = -1 (up)
 		# ^ = 1 (down)
@@ -113,6 +116,10 @@ class Input_events():
 				self.keys["W"] = True
 			elif event.key == pygame.K_e:
 				self.keys["E"] = True
+			elif event.key == pygame.K_t:
+				self.keys["T"] = True
+			elif event.key == pygame.K_u:
+				self.keys["U"] = True
 			
 		elif event.type == pygame.KEYUP:
 			if event.key == pygame.K_RETURN:
@@ -136,6 +143,10 @@ class Input_events():
 				self.keys["W"] = False
 			elif event.key == pygame.K_e:
 				self.keys["E"] = False
+			elif event.key == pygame.K_t:
+				self.keys["T"] = False
+			elif event.key == pygame.K_u:
+				self.keys["U"] = False
 
 		elif event.type == pygame.MOUSEWHEEL:
 			self.mouse_wheel = event.y

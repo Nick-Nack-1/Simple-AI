@@ -51,8 +51,8 @@ class Board():
 			elif self.StalemateCheck():
 				##CHANGED IN RULE CHANGE
 				self.win = True
-				self.Players[self.Turn][0].End(False)
-				self.Players[self.Turn*-1][0].End(True)
+				self.Players[self.Turn][0].End(True)	#True for normal win
+				self.Players[self.Turn*-1][0].End(False)
 			self.Board = self.Rotate()
 			self.Turn = self.Turn*-1
 			self.Turn_count -= 1

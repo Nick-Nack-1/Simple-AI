@@ -27,20 +27,15 @@ running = True
 Input = Inputs.Input_events()
 Mouse = Inputs.Mouse()
 
-chart = open("chart.txt", "w")
-chart.write("Total,Red,Black\n")
-
 Human = Players.Human(Input, Mouse)
-# Human = Players.DummyAI()
-# Human = Players.AI()
-# AI = Players.Human(Input, Mouse)
 AI = Players.AI()
+AI.Feedback_algo = 3
+AI_Difficulty = 'Untrained'
 Game = None
 def new_game():
 	global Game, AI, Human
 	Game = Table.Board([Human,AI], (3,3), True)
 	AI.setup(Game)
-	AI.Feedback_algo = 3
 	Human.setup(Game)
 
 Game_end_delay = Table.Pause(30)
@@ -62,7 +57,6 @@ while running:
 	if Game.NewGame():
 		Game_count +=1
 		if Game_end_delay.Update():
-			chart.write(f"{Game_count},{Human.score},{AI.score}\n")
 			new_game()
 			if Game.Should_pause:
 				Game_end_delay = Table.Pause(30)
@@ -73,30 +67,32 @@ while running:
 	
 	
 	if Input.keys["F1"]:
-		with open("./AIs/DummyAI.txt", "wb") as file:
-			print("saving")
-			pickle.dump(Human.Moves, file)
-	if Input.keys["F2"]:
-		with open("./AIs/PerfectModel.txt", "wb") as file:
-			print("saving")
-			pickle.dump(AI.Moves, file)
-	if Input.keys["F3"]:
-		with open("./AIs/CurrentAI.txt", "rb") as file:
-			print("loading")
-			AI.Moves = pickle.load(file)
+		AI.Feedback_algo = 1
+	elif Input.keys["F2"]:
+		AI.Feedback_algo = 2
+	elif Input.keys["F3"]:
+		AI.Feedback_algo = 3
+	if Input.keys["U"]:
+		AI.State_Table = {}
+		AI_Difficulty = 'Untrained'
+		AI.score = 0
+		Human.score = 0
+	elif Input.keys["T"]:
+		with open("./AIs/PerfectModel.txt", "rb") as file:
+			AI.State_Table = pickle.load(file)
+		AI_Difficulty = 'Trained'
+		AI.score = 0
+		Human.score = 0
 	if Input.keys["Return"]:
 		with open("PrintOut.txt", "w") as file:
-			print("printout")
-			pprint.pprint(AI.Moves, file)
-	if Mouse.press_triggered("Right"):
-		Game.Should_pause = not Game.Should_pause
+			pprint.pprint(AI.State_Table, file)
 
 
 	screen.fill((255,255,255))
 	Human.Draw(screen=screen)
+	draw_text(f"algo: {['P','R','R&P'][AI.Feedback_algo-1]}", font, (0,0,0), screen, (0,0))
+	draw_text(f"agent: {AI_Difficulty}", font, (0,0,0), screen, (0,20))
 	Game.ShowWinner(screen, font2)
 	pygame.display.set_caption(f"Red: {AI.score} | Black: {Human.score} | Game no.: {AI.score+Human.score}")
 
 	pygame.display.update()
-
-chart.close()

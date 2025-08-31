@@ -83,7 +83,7 @@ class AI():
 		self.State_Table = {}
 		self.board = None
 		self.Feedback_algo = 0
-		self.base_weight_score = 2
+		self.base_weight_score = 1
 		self.reward_num = 0
 		self.punish_num = 0
 		#0 = no feedback, 1 = feedback on loss, 2 = feedback on win, 3 = feedback on both
