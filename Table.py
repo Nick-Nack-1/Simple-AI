@@ -23,7 +23,7 @@ class Board():
 	
 
 	def Update(self):
-		self.Players[self.Turn*-1][0].GetBoard(self.Rotate())
+		self.Players[self.Turn*-1][0].GetBoard(self.Reflect(x=True, y=True))
 		if self.moved == False:
 			Current_plr = self.Players[self.Turn][0]
 			move = Current_plr.Play(self.Board, self.Turn)
@@ -53,7 +53,7 @@ class Board():
 				self.win = True
 				self.Players[self.Turn][0].End(True)	#True for normal win
 				self.Players[self.Turn*-1][0].End(False)
-			self.Board = self.Rotate()
+			self.Board = self.Reflect(x=True, y=True)
 			self.Turn = self.Turn*-1
 			self.Turn_count -= 1
 	
@@ -86,7 +86,7 @@ class Board():
 			return True
 
 	def StalemateCheck(self):
-		board = self.Rotate()
+		board = self.Reflect(x=True, y=True)
 		Stalemate = True
 		for y in range(len(board)-2):
 			for x in range(len(board[0])-2):
@@ -104,15 +104,31 @@ class Board():
 		self.Players[self.Turn][0].End(False)
 		self.Players[self.Turn*-1][0].End(True)
 
-	def Rotate(self):
+	def Reflect(self, x=False, y=False):
+		ref_board = copy.deepcopy(self.Board)
 		temp_board = copy.deepcopy(self.Board)
-		for y in range(len(self.Board)):
-			for x in range(len(self.Board[0])):
-				rev_x = abs(x-(len(self.Board[0])-1))
-				rev_y = abs(y-(len(self.Board)-1))
-				temp_board[rev_y][rev_x] = self.Board[y][x]
-		return temp_board
-	
+		#X-axsis reflection
+		if x and y:
+			for y in range(len(self.Board)):
+				for x in range(len(self.Board[0])):
+					rev_x = abs(x-(len(self.Board[0])-1))
+					rev_y = abs(y-(len(self.Board)-1))
+					ref_board[rev_y][rev_x] = self.Board[y][x]
+		elif x:
+			for y in range(len(self.Board)):
+				for x in range(len(self.Board[0])):
+					rev_y = abs(y-(len(self.Board)-1))
+					ref_board[rev_y][x] = self.Board[y][x]
+		#Y-axsis reflection
+		elif y:
+			for y in range(len(self.Board)):
+				for x in range(len(self.Board[0])):
+					rev_x = abs(x-(len(self.Board[0])-1))
+					ref_board[y][rev_x] = self.Board[y][x]
+		return ref_board
+		
+		# return temp_board
+
 	def NewGame(self):
 		return self.win
 	

@@ -83,7 +83,7 @@ class AI():
 		self.State_Table = {}
 		self.board = None
 		self.Feedback_algo = 0
-		self.base_weight_score = 1
+		self.base_weight_score = 2
 		self.reward_num = 0
 		self.punish_num = 0
 		#0 = no feedback, 1 = feedback on loss, 2 = feedback on win, 3 = feedback on both
@@ -96,10 +96,19 @@ class AI():
 	
 	def Play(self, board, plr_key:int) -> list|None:
 		board_state = ()
+		ref_board_state = ()
+		x_dir = 1
+		#Create board key
 		for y in range(len(board)-2):
 			board_state = board_state + tuple(board[y+1][1:-1])
-
-		if board_state not in self.State_Table:
+		#Create reflected board key
+		for y in range(len(board)-2):
+			ref_board_state = ref_board_state + tuple(self.game.Reflect(y=True)[y+1][1:-1])
+		if board_state in self.State_Table:
+			pass
+		elif board_state in self.State_Table:
+			x_dir = -1
+		else:
 			self.State_Table[board_state] = []
 			for y in range(len(board)-2):
 				for x in range(len(board[0])-2):
@@ -126,7 +135,16 @@ class AI():
 				if self.Feedback_algo != 0:
 					self.last_move[2] += 1
 			self.last_move = self.current_move
-			return self.last_move[0:2]
+			rtrn_move = self.last_move
+			if x_dir ==  -1:
+				pos = (abs(self.last_move[0][0]-len(self.board[0]-3)),self.last_move[0][1])
+				type = "M"
+				if rtrn_move[1] == 'R':
+					type = 'L'
+				if rtrn_move[1] == 'L':
+					type = 'R'
+				rtrn_move = [pos,type]
+			return rtrn_move
 	
 	def End(self, win:bool):
 		if win:
