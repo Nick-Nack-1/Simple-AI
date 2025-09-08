@@ -12,22 +12,22 @@ from GLOBALS import *
 
 # chart.write("Total,Red,Black, Diff\n")
 
-TotalRuns = 1
-Traincycles = 10
-Testcycles = 10
-TotalLoops = 100
-current_cycle = 0
+#TotalRuns = 100
+#Traincycles = 10
+#Testcycles = 1000
+#TotalLoops = 100
+#current_cycle = 0
 if len(sys.argv) > 1:
 	feedback_algo = int(sys.argv[1])
 else:
 	feedback_algo = int(input('Enter feedback algorithm (neg|1|, pos|2|, both|3|): '))
 #1 = feedback on loss, 2 = feedback on win, 3 = feedback on both
 
-# TotalRuns = 2
-# Traincycles = 10
-# Testcycles = 100
-# TotalLoops = 100
-# current_cycle = 0
+TotalRuns = 1
+Traincycles = 10
+Testcycles = 10
+TotalLoops = 10
+current_cycle = 0
 
 Human = Players.DummyAI()
 AI = Players.AI()
