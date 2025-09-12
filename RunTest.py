@@ -13,7 +13,7 @@ from GLOBALS import *
 
 TotalRuns = 1
 Traincycles = 10
-Testcycles = 50
+Testcycles = 100
 TotalLoops = 100
 current_cycle = 0
 feedback_algo = 1
@@ -96,7 +96,7 @@ for algo in range(3):
 
 	with open(f"./StateTable_printouts/Type{feedback_algo}_Table{loop}.txt", "w") as file:
 		pprint.pprint(AI.State_Table, file)
-	with open(f"./AIs/PerfectModel{algo+1}.txt", "wb") as file:
+	with open(f"./AIs/3x3_algo{algo+1}.txt", "wb") as file:
 		pickle.dump(AI.State_Table, file)
 	with open(f"Charts/Algo_{feedback_algo}/chart_data{algo+1}.txt", "w") as chart:
 		chart.write("Test,AI Score\n")
