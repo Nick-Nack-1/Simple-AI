@@ -1,18 +1,17 @@
 import copy
 from GLOBALS import *
-import pygame
 
 class Board():
 	def __init__(self, Plrs:list, Board_size, pause = True):
 		self.Should_pause = pause
 		self.Players = {}
-		self.Players[1] = [Plrs[0],0]
-		self.Players[-1] = [Plrs[1],0]
+		self.Players[1] = Plrs[0]
+		self.Players[-1] = Plrs[1]
 		
 		self.Turn = 1
 		self.Turn_count = 7
 		self.moved = False
-		self.turn_pause = None
+		self.turn_pause = Pause(0)
 		self.win = False
 
 		self.Size = Board_size
@@ -23,9 +22,9 @@ class Board():
 	
 
 	def Update(self):
-		self.Players[self.Turn*-1][0].GetBoard(self.Rotate())
+		self.Players[self.Turn*-1].GetBoard(self.Rotate())
 		if self.moved == False:
-			Current_plr = self.Players[self.Turn][0]
+			Current_plr = self.Players[self.Turn]
 			move = Current_plr.Play(self.Board, self.Turn)
 			if move != None:
 				self.moved = True
@@ -46,13 +45,13 @@ class Board():
 			self.moved = False
 			if self.Win():
 				self.win = True
-				self.Players[self.Turn][0].End(True)
-				self.Players[self.Turn*-1][0].End(False)
+				self.Players[self.Turn].End(True)
+				self.Players[self.Turn*-1].End(False)
 			elif self.StalemateCheck():
 				##CHANGED IN RULE CHANGE
 				self.win = True
-				self.Players[self.Turn][0].End(True)	#True for normal win
-				self.Players[self.Turn*-1][0].End(False)
+				self.Players[self.Turn].End(True)	#True for normal win
+				self.Players[self.Turn*-1].End(False)
 			self.Board = self.Rotate()
 			self.Turn = self.Turn*-1
 			self.Turn_count -= 1
@@ -74,7 +73,6 @@ class Board():
 	def Win(self) -> bool:
 		#1
 		if self.Turn in self.Board[1]:
-			# print(f"Border win by {'Red' if self.Turn == -1 else 'Black'}")
 			return True
 		#2
 		surviver = True
@@ -84,6 +82,7 @@ class Board():
 				break
 		if surviver:
 			return True
+		return False
 
 	def StalemateCheck(self):
 		board = self.Rotate()
@@ -95,14 +94,8 @@ class Board():
 						if self.ValidateMove(((x,y),m), board):
 							Stalemate = False
 							break
-		# if Stalemate:
-		# 	print(f"Stalemate win for {'Red' if self.Turn == -1 else 'Black'}")
 		return Stalemate
 	
-	def Resign(self):
-		self.win = True
-		self.Players[self.Turn][0].End(False)
-		self.Players[self.Turn*-1][0].End(True)
 
 	def Rotate(self):
 		temp_board = copy.deepcopy(self.Board)
@@ -126,11 +119,6 @@ class Board():
 				text = "Black wins!"
 				text_obj = font.render(text, True, (0,0,0))
 			screen.blit(text_obj, ((SCREEN_WIDTH-text_obj.get_width())//2,(SCREEN_HEIGHT-text_obj.get_height())//2))
-
-#            if self.Should_pause:
-#                self.turn_pause = Pause(1)
-#            else:
-#                self.turn_pause = Pause(1)
 
 class Pause():
 	def __init__(self, T_tick:int):

@@ -4,6 +4,7 @@ import Players
 import Inputs
 import pickle
 import pprint
+from typing import cast
 from GLOBALS import *
 
 pygame.init()
@@ -31,7 +32,7 @@ Human = Players.Human(Input, Mouse)
 AI = Players.AI()
 AI.Feedback_algo = 3
 AI_Difficulty = 'Untrained'
-Game = None
+Game = cast(Table.Board, None)
 def new_game():
 	global Game, AI, Human
 	Game = Table.Board([Human,AI], (3,3), True)
@@ -43,6 +44,13 @@ Game_end_delay = Table.Pause(30)
 Game_count = 0
 
 new_game()
+
+def RevertToUntrained():
+	global AI_Difficulty
+	AI.State_Table = {}
+	AI_Difficulty = 'Untrained'
+	AI.score = 0
+	Human.score = 0
 
 while running:
 	clock.tick(fps)
@@ -68,17 +76,17 @@ while running:
 	
 	if Input.keys["F1"]:
 		AI.Feedback_algo = 1
+		RevertToUntrained()
 	elif Input.keys["F2"]:
 		AI.Feedback_algo = 2
+		RevertToUntrained()
 	elif Input.keys["F3"]:
 		AI.Feedback_algo = 3
+		RevertToUntrained()
 	if Input.keys["U"]:
-		AI.State_Table = {}
-		AI_Difficulty = 'Untrained'
-		AI.score = 0
-		Human.score = 0
+		RevertToUntrained()
 	elif Input.keys["T"]:
-		with open("./AIs/PerfectModel.txt", "rb") as file:
+		with open(f"./AIs/Trained_{AI.Feedback_algo}.txt", "rb") as file:
 			AI.State_Table = pickle.load(file)
 		AI_Difficulty = 'Trained'
 		AI.score = 0

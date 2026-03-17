@@ -1,39 +1,29 @@
 import Table
 import Players
-import Inputs
 import pickle
 import pprint
 import os
 import time
 import copy
+from typing import cast
 from GLOBALS import *
 
 
-# chart.write("Total,Red,Black, Diff\n")
-
-TotalRuns = 1
+TotalRuns = 100
 Traincycles = 10
-Testcycles = 100
+Testcycles = 1000
 TotalLoops = 100
 current_cycle = 0
 feedback_algo = 1
 #1 = feedback on loss, 2 = feedback on win, 3 = feedback on both
 
-# TotalRuns = 2
-# Traincycles = 10
-# Testcycles = 100
-# TotalLoops = 100
-# current_cycle = 0
-
 Human = Players.DummyAI()
 AI = Players.AI()
-# if os.path.exists("./AIs/CurrentAI.txt"):
-# 	with open("./AIs/CurrentAI.txt", "rb") as file:
-# 		AI.State_Table = pickle.load(file)
-Game = None
+
+Game = cast(Table.Board, None)
 
 def new_game():
-	global Game, AI, Human
+	global Game
 	Game = Table.Board([Human,AI], (3,3), False)
 	AI.setup(Game)
 	Human.setup(Game)
@@ -53,7 +43,7 @@ for algo in range(3):
 	print(f"Testing algo {algo+1}")
 	feedback_algo = algo+1
 	Data = []
-	for run in range(TotalRuns):	##AMOUNT OF GAMES TO RUN
+	for run in range(TotalRuns):	##AMOUNT OF TEST REPETISIONS
 		Data.append([])
 		AI = Players.AI()
 		AI.State_Table = copy.deepcopy(default_stateTable)
@@ -61,16 +51,17 @@ for algo in range(3):
 			print(f"Algo: {algo+1} - Run: {run}.{loop}")
 			for state in range(2):
 				AI.score = 0
+				games = 0
 				if state == 0:
 					AI.Feedback_algo = 0
-					cycles = Testcycles
+					games = Testcycles
 					with open(f"./StateTable_printouts/Type{feedback_algo}_Table_pretest{loop}.txt", "w") as file:
 						pprint.pprint(AI.State_Table, file)
 				elif state == 1:
 					AI.Feedback_algo = feedback_algo
-					cycles = Traincycles
+					games = Traincycles
 				##RUN GAME START
-				for cycle in range(cycles):
+				for game in range(games):
 					while True:
 						if Game.NewGame():
 							new_game()
@@ -94,7 +85,7 @@ for algo in range(3):
 					Game.Update()
 		Data[run].append(AI.score)
 
-	with open(f"./StateTable_printouts/Type{feedback_algo}_Table{loop}.txt", "w") as file:
+	with open(f"./StateTable_printouts/Type{feedback_algo}_Table{TotalLoops}.txt", "w") as file:
 		pprint.pprint(AI.State_Table, file)
 	with open(f"./AIs/3x3_algo{algo+1}.txt", "wb") as file:
 		pickle.dump(AI.State_Table, file)

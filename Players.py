@@ -178,10 +178,6 @@ class DummyAI():
 		self.board = board
 	
 	def Play(self, board, plr_key:int) -> list|None:
-		board_state = ()
-		for y in range(len(board)-2):
-			board_state = board_state + tuple(board[y+1][1:-1])
-
 		Moves = []
 		for y in range(len(board)-2):
 			for x in range(len(board[0])-2):

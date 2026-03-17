@@ -4,6 +4,7 @@ import Players
 import Inputs
 import pickle
 import pprint
+from typing import cast
 from GLOBALS import *
 
 pygame.init()
@@ -31,16 +32,13 @@ chart = open("chart.txt", "w")
 chart.write("Total,Red,Black\n")
 
 Human = Players.Human(Input, Mouse)
-# Human = Players.DummyAI()
-# Human = Players.AI()
-# AI = Players.Human(Input, Mouse)
 AI = Players.AI()
-Game = None
+AI.Feedback_algo = 3
+Game = cast(Table.Board,None)
 def new_game():
 	global Game, AI, Human
 	Game = Table.Board([Human,AI], (3,3), True)
 	AI.setup(Game)
-	AI.Feedback_algo = 3
 	Human.setup(Game)
 
 Game_end_delay = Table.Pause(30)
@@ -71,23 +69,19 @@ while running:
 	else:
 		Game.Update()
 	
-	
-	if Input.keys["F1"]:
-		with open("./AIs/DummyAI.txt", "wb") as file:
-			print("saving")
-			pickle.dump(Human.Moves, file)
+
 	if Input.keys["F2"]:
-		with open("./AIs/PerfectModel.txt", "wb") as file:
+		with open("./AIs/CurrentAI.txt", "wb") as file:
 			print("saving")
-			pickle.dump(AI.Moves, file)
+			pickle.dump(AI.State_Table, file)
 	if Input.keys["F3"]:
 		with open("./AIs/CurrentAI.txt", "rb") as file:
 			print("loading")
-			AI.Moves = pickle.load(file)
+			AI.State_Table = pickle.load(file)
 	if Input.keys["Return"]:
 		with open("PrintOut.txt", "w") as file:
 			print("printout")
-			pprint.pprint(AI.Moves, file)
+			pprint.pprint(AI.State_Table, file)
 	if Mouse.press_triggered("Right"):
 		Game.Should_pause = not Game.Should_pause
 

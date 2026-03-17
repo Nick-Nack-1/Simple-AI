@@ -5,6 +5,7 @@ import pickle
 import pprint
 import os
 import time
+from typing import cast
 from GLOBALS import *
 
 # 14 141 lines
@@ -28,7 +29,7 @@ AI = Players.AI()
 if os.path.exists("./AIs/CurrentAI.txt"):
 	with open("./AIs/CurrentAI.txt", "rb") as file:
 		AI.State_Table = pickle.load(file)
-Game = None
+Game = cast(Table.Board,None)
 
 def new_game():
 	global Game, AI, Human
@@ -55,8 +56,6 @@ print(f"Games per minute: {max_cycle/((time.time()-start_time)/60)}")
 
 with open("./AIs/CurrentAI.txt", "wb") as file:
 	pickle.dump(AI.State_Table, file)
-# with open("./AIs/CurrentAIv2.txt", "wb") as file:
-# 	pickle.dump(Human.Moves, file)
 with open("PrintOut.txt", "w") as file:
 	pprint.pprint(AI.State_Table, file)
 
